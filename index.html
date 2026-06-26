@@ -109,7 +109,7 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-1.5 md:px-4 py-1.5 space-y-1.5">
 
-        <!-- Dynamic Category Quick Filters -->
+        <!-- Dynamic Category Quick Filters (Clean & Minimalist) -->
         <div class="bg-white rounded-md border border-slate-200 p-1 flex flex-row items-center justify-between gap-1 shadow-xs">
             <div class="flex items-center gap-1 overflow-x-auto scrollbar-none py-0.5">
                 <span class="text-[7.5px] font-extrabold text-slate-400 uppercase tracking-wider shrink-0 mr-1 hidden xs:inline">Filter:</span>
@@ -133,7 +133,7 @@
             </div>
         </div>
 
-        <!-- Faculty Management Bar -->
+        <!-- Faculty Management Bar (Simplified: No Cloud Config UI) -->
         <div id="faculty-controls" class="hidden bg-emerald-50 border border-emerald-200 p-1 rounded-md flex flex-col gap-1">
             <div class="flex flex-row justify-between items-center gap-1">
                 <div class="flex items-center gap-1">
@@ -145,44 +145,12 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-1">
-                    <button onclick="toggleCloudSyncPanel()" class="px-1.5 py-0.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded font-bold text-[8px] transition">
-                        <i class="fa-solid fa-cloud-arrow-up text-[7px]"></i> Cloud Config
-                    </button>
                     <button onclick="openAddWeekModal()" class="flex items-center gap-0.5 px-1.5 py-0.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-[8px] transition shadow-xs">
                         <i class="fa-solid fa-plus text-[7px]"></i> New Week
                     </button>
                     <button onclick="facultyLogout()" class="px-1.5 py-0.5 bg-slate-700 hover:bg-slate-800 text-white rounded font-bold text-[8px] transition">
                         <i class="fa-solid fa-right-from-bracket text-[7px]"></i> Logout
                     </button>
-                </div>
-            </div>
-
-            <!-- Expandable Cloud Sync Panel -->
-            <div id="cloud-sync-panel" class="hidden bg-white rounded border border-emerald-150 p-2 text-[8px] text-slate-600 space-y-1.5">
-                <div class="border-b pb-1">
-                    <h4 class="font-extrabold text-slate-800 flex items-center gap-1"><i class="fa-solid fa-cloud-bolt text-emerald-600"></i> Cloud Synchronization Settings</h4>
-                    <p class="text-[7.5px] text-slate-500 mt-0.5">Connect to JSONBin.io to automatically synchronize edits across all student devices instantly.</p>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-0.5">1. Enable Cloud Mode</label>
-                        <select id="cloud-enable" class="w-full border p-0.5 rounded font-bold text-[8px]">
-                            <option value="false">Off (Local Storage Only)</option>
-                            <option value="true">On (Direct Cloud Sync)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-0.5">2. JSONBin Bin ID</label>
-                        <input type="text" id="cloud-bin-id" placeholder="e.g. 64ff89a..." class="w-full border p-0.5 rounded text-[8px]">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-0.5">3. JSONBin X-Master-Key</label>
-                        <input type="password" id="cloud-master-key" placeholder="Enter API Key" class="w-full border p-0.5 rounded text-[8px]">
-                    </div>
-                </div>
-                <div class="flex justify-end gap-1 pt-1 border-t">
-                    <button onclick="toggleCloudSyncPanel()" class="px-1.5 py-0.5 border rounded">Cancel</button>
-                    <button onclick="saveCloudSettings()" class="px-1.5 py-0.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded">Save Settings</button>
                 </div>
             </div>
         </div>
@@ -443,13 +411,13 @@
 
     <script>
         /*************************************************************************************
-         * 🟢 PERMANENT CLOUD CONFIGURATION 
+         * 🟢 PERMANENT CLOUD CONFIGURATION (NO CONFIG UI PANEL NEEDED IN APP)
          * Paste your keys inside the quotes below before uploading to GitHub! 
          * This makes cloud-sync work permanently on all devices automatically.
          *************************************************************************************/
         const HARDCODED_BIN_ID = "6a3e6e85da38895dfe0288bf";       // Paste your JSONBin.io Bin ID here (e.g. "65bca8d91f56...")
         const HARDCODED_MASTER_KEY = "$2a$10$ctfwau541VgjzvQ6UPivNOXBkt5STq8A7he3P9DmlEreel5fiOPvm";   // Paste your JSONBin.io X-Master-Key here
-        const AUTO_ENABLE_CLOUD = false;   // Set to true once you paste your keys to activate cloud sync immediately
+        const AUTO_ENABLE_CLOUD = true;   // Set to true once you paste your keys to activate cloud sync immediately
 
         let footerDetailsVisible = false;
         function toggleFooterDetails() {
@@ -472,7 +440,7 @@
             }
         }
 
-        // Color coding definitions map (Updated to use elegant pastel highlights without heavy stickers)
+        // Color coding definitions map (Pastel highlights, clean typography)
         const categoryMap = {
             'holiday': {
                 label: 'General Holiday (GH)',
@@ -737,24 +705,18 @@
         let layoutMode = 'table';
         const correctPasswordHash = "faculty123";
 
-        // Cloud Storage Parameters
         let cloudSyncEnabled = false;
         let cloudBinId = "";
         let cloudMasterKey = "";
 
         window.onload = function () {
-            // Priority 1: Check if keys are permanently hardcoded inside the code block
+            // Check if keys are permanently hardcoded. If yes, enable automatic cloud sync instantly.
             if (HARDCODED_BIN_ID && HARDCODED_MASTER_KEY) {
                 cloudBinId = HARDCODED_BIN_ID.trim();
                 cloudMasterKey = HARDCODED_MASTER_KEY.trim();
                 cloudSyncEnabled = AUTO_ENABLE_CLOUD;
-                
-                // Write permanently to UI fields to display status
-                document.getElementById('cloud-enable').value = cloudSyncEnabled ? "true" : "false";
-                document.getElementById('cloud-bin-id').value = cloudBinId;
-                document.getElementById('cloud-master-key').value = "●●●●●●●●●●";
             } else {
-                // Priority 2: Fallback to Local Storage definitions if no permanent keys were hardcoded
+                // Local fallback configuration
                 const localCloudSettings = localStorage.getItem('nitte_cloud_settings_v4');
                 if (localCloudSettings) {
                     try {
@@ -762,24 +724,20 @@
                         cloudSyncEnabled = parsed.enabled === 'true' || parsed.enabled === true;
                         cloudBinId = parsed.binId || "";
                         cloudMasterKey = parsed.masterKey || "";
-                        
-                        document.getElementById('cloud-enable').value = cloudSyncEnabled ? "true" : "false";
-                        document.getElementById('cloud-bin-id').value = cloudBinId;
-                        document.getElementById('cloud-master-key').value = cloudMasterKey;
                     } catch (e) {
-                        console.error("Failed loading cloud sync config", e);
+                        console.error("Failed loading local fallback config", e);
                     }
                 }
             }
 
-            // Force cards layout mode on smaller viewport widths
+            // Force cards layout mode on mobile viewports
             if (window.innerWidth < 1024) {
                 layoutMode = 'cards';
             }
 
             isFacultyLoggedIn = localStorage.getItem('nitte_faculty_auth_clean') === 'true';
 
-            // Connect to correct data origin
+            // Load data based on cloud activation mode
             if (cloudSyncEnabled && cloudBinId) {
                 fetchFromCloudDatabase();
             } else {
@@ -794,7 +752,7 @@
             if (localData) {
                 try {
                     currentCalendarData = JSON.parse(localData);
-                    // Check if current data contains merged Week 4 & 5. If so, force reset to update to new separate week architecture.
+                    // Ensure split weeks 4 and 5 are maintained properly
                     const needsUpdate = currentCalendarData.some(item => item.week === "4 & 5");
                     if (needsUpdate) {
                         currentCalendarData = JSON.parse(JSON.stringify(originalCalendarMaster));
@@ -824,7 +782,7 @@
                 headers: headers
             })
             .then(res => {
-                if (!res.ok) throw new Error("Could not download cloud database data.");
+                if (!res.ok) throw new Error("Could not download cloud database.");
                 return res.json();
             })
             .then(data => {
@@ -837,11 +795,11 @@
                 }
                 updateSyncUIStatus("Cloud Synced", false);
                 renderCalendarView();
-                showCustomToast("Successfully synced calendar with Cloud Server", "success");
+                showCustomToast("Successfully loaded schedule from Live Cloud", "success");
             })
             .catch(err => {
                 console.error(err);
-                showCustomToast("Cloud Sync failed, loading local fallback.", "error");
+                showCustomToast("Cloud server unavailable, loading local fallback.", "error");
                 loadFromLocalStorage();
             });
         }
@@ -864,12 +822,12 @@
             })
             .then(() => {
                 updateSyncUIStatus("Cloud Synced", false);
-                showCustomToast("Changes saved directly to Cloud Server!", "success");
+                showCustomToast("Live database automatically synced!", "success");
             })
             .catch(err => {
                 console.error(err);
                 updateSyncUIStatus("Sync Error", false);
-                showCustomToast("Failed to write update to cloud DB.", "error");
+                showCustomToast("Background cloud save failed.", "error");
             });
         }
 
@@ -929,7 +887,7 @@
                 closePasswordModal();
                 updateAuthUI();
                 renderCalendarView();
-                showCustomToast("Faculty Editor Activated", "success");
+                showCustomToast("Faculty Editor Mode Activated", "success");
             } else {
                 document.getElementById('password-error').classList.remove('hidden');
             }
@@ -938,7 +896,6 @@
         function facultyLogout() {
             isFacultyLoggedIn = false;
             localStorage.setItem('nitte_faculty_auth_clean', 'false');
-            document.getElementById('cloud-sync-panel').classList.add('hidden');
             updateAuthUI();
             renderCalendarView();
             showCustomToast("Logged out of Edit Mode", "info");
@@ -964,45 +921,6 @@
                 badge.className = "flex items-center gap-0.5 px-1 py-0.5 bg-slate-100 border border-slate-200 text-slate-600 rounded text-[7px] md:text-[8px] font-bold shadow-xs";
                 resetBtn.classList.add('hidden');
                 controlsBar.classList.add('hidden');
-            }
-        }
-
-        function toggleCloudSyncPanel() {
-            const panel = document.getElementById('cloud-sync-panel');
-            panel.classList.toggle('hidden');
-        }
-
-        function saveCloudSettings() {
-            const enableVal = document.getElementById('cloud-enable').value === 'true';
-            const binIdVal = document.getElementById('cloud-bin-id').value.trim();
-            let masterKeyVal = document.getElementById('cloud-master-key').value.trim();
-
-            if (enableVal && (!binIdVal || !masterKeyVal)) {
-                showCustomToast("Please provide both Bin ID and API Key to enable sync.", "error");
-                return;
-            }
-
-            if (masterKeyVal.includes("●") && HARDCODED_MASTER_KEY) {
-                masterKeyVal = HARDCODED_MASTER_KEY;
-            }
-
-            cloudSyncEnabled = enableVal;
-            cloudBinId = binIdVal;
-            cloudMasterKey = masterKeyVal;
-
-            localStorage.setItem('nitte_cloud_settings_v4', JSON.stringify({
-                enabled: cloudSyncEnabled,
-                binId: cloudBinId,
-                masterKey: cloudMasterKey
-            }));
-
-            showCustomToast("Cloud Settings updated successfully.", "success");
-            toggleCloudSyncPanel();
-
-            if (cloudSyncEnabled && cloudBinId) {
-                fetchFromCloudDatabase();
-            } else {
-                loadFromLocalStorage();
             }
         }
 
@@ -1044,7 +962,6 @@
             renderCalendarView();
         }
 
-        // Parses calendar days safely to color-highlight date blocks using light backgrounds only (no heavy solid colors)
         function parseDateCell(cellText) {
             if (!cellText) return { text: '', label: '', category: '' };
             
@@ -1071,12 +988,12 @@
             return { text: numPart, label: labelPart, category: category };
         }
 
-        // Smart helper function to match events and highlight yellow/purple/rose dates dynamically on the calendar
+        // Smart dynamic event-to-date matcher
         function isEventOnDay(dayNum, eventText) {
             const colonIndex = eventText.indexOf(':');
             if (colonIndex === -1) return false;
             
-            const prefix = eventText.substring(0, colonIndex).trim(); // e.g. "21-24 Aug" or "23-24 Oct" or "24 Sep"
+            const prefix = eventText.substring(0, colonIndex).trim(); 
             const cleanPrefix = prefix.replace(/\s+/g, ' ');
             const numbers = cleanPrefix.match(/\d+/g);
             if (!numbers || numbers.length === 0) return false;
@@ -1100,13 +1017,13 @@
         function getDayCategory(dayVal, weekEvents) {
             const parsed = parseDateCell(dayVal);
             if (parsed.category) {
-                return parsed.category; // Explicit holiday/institute tags (GH, BH, EoC, OR/COC)
+                return parsed.category; 
             }
             
             const dayNum = parseInt(parsed.text);
             if (isNaN(dayNum) || !weekEvents) return '';
 
-            // Scan all events in this week to dynamically match and colour the dates (e.g. yellow for events)
+            // Map corresponding pastel highlights dynamically
             for (let e of weekEvents) {
                 if (isEventOnDay(dayNum, e.text)) {
                     return e.category; 
@@ -1140,7 +1057,6 @@
             }
         }
 
-        // Custom lightweight date cell renderer with soft background highlights (No solid dark fills on numbers, labels plain text)
         function renderDayCell(day, cellText, weekEvents) {
             if (!cellText) {
                 return `<td class="p-0.5 text-center min-w-[34px] bg-slate-50/10 border border-slate-100"></td>`;
@@ -1150,18 +1066,16 @@
             let bgClass = 'bg-slate-50 text-slate-800 border-slate-150';
             let labelTextHtml = '';
 
-            // Resolve dynamic category (detect if event matches yellow/purple etc.)
             const category = getDayCategory(cellText, weekEvents);
 
             if (category) {
                 const cfg = categoryMap[category] || categoryMap['other'];
                 bgClass = cfg.dateClass;
-                // Render label as plain high-contrast text inside the pastel box, satisfying 'remove red stickers'
-                labelTextHtml = `<span class="text-[6.5px] font-black opacity-80 mt-0.5 uppercase tracking-wider leading-none">${parsed.label ? parsed.label : (category === 'events' ? 'Event' : '')}</span>`;
+                labelTextHtml = `<span class="text-[6.5px] font-black opacity-85 mt-0.5 uppercase tracking-wider leading-none">${parsed.label ? parsed.label : (category === 'events' ? 'Event' : '')}</span>`;
             } else if (parsed.label) {
                 const cfg = categoryMap['other'];
                 bgClass = cfg.dateClass;
-                labelTextHtml = `<span class="text-[6.5px] font-black opacity-80 mt-0.5 uppercase tracking-wider leading-none">${parsed.label}</span>`;
+                labelTextHtml = `<span class="text-[6.5px] font-black opacity-85 mt-0.5 uppercase tracking-wider leading-none">${parsed.label}</span>`;
             }
 
             return `
@@ -1291,7 +1205,7 @@
                             </span>
                         </div>
 
-                        <!-- Highlights Date Blocks Grid Row (Using Pastel highlights and text labels instead of stickers) -->
+                        <!-- Highlights Date Blocks Grid Row -->
                         <div class="mt-1.5">
                             <div class="grid grid-cols-7 gap-0.5">
                                 ${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => {
@@ -1304,17 +1218,16 @@
                                     let activeClass = 'bg-slate-50 text-slate-700 border-slate-100';
                                     let labelTextHtml = '';
 
-                                    // Resolve dynamic category (detect if event matches yellow/purple etc.)
                                     const category = getDayCategory(val, row.events);
 
                                     if (category) {
                                         const cfg = categoryMap[category] || categoryMap['other'];
                                         activeClass = cfg.dateClass;
-                                        labelTextHtml = `<span class="text-[6.5px] font-black opacity-80 mt-0.5 uppercase tracking-wider leading-none">${parsed.label ? parsed.label : (category === 'events' ? 'Event' : '')}</span>`;
+                                        labelTextHtml = `<span class="text-[6.5px] font-black opacity-85 mt-0.5 uppercase tracking-wider leading-none">${parsed.label ? parsed.label : (category === 'events' ? 'Event' : '')}</span>`;
                                     } else if (parsed.label) {
                                         const cfg = categoryMap['other'];
                                         activeClass = cfg.dateClass;
-                                        labelTextHtml = `<span class="text-[6.5px] font-black opacity-80 mt-0.5 uppercase tracking-wider leading-none">${parsed.label}</span>`;
+                                        labelTextHtml = `<span class="text-[6.5px] font-black opacity-85 mt-0.5 uppercase tracking-wider leading-none">${parsed.label}</span>`;
                                     }
 
                                     return `
@@ -1464,7 +1377,7 @@
                 finalString = `${prefix}: ${text}`;
             }
 
-            // Automatically inject GH inside date cell block if holiday prefix matches
+            // Inject holiday label safely
             if (category === 'holiday' && prefix) {
                 const cleanDate = parseInt(prefix);
                 if (!isNaN(cleanDate)) {
