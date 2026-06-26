@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NITTE Institute of Architecture - Academic Calendar 2026-27</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        nitte: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        holiday: {
+                            bg: '#fff1f2',
+                            text: '#be123c',
+                            border: '#fecdd3',
+                            solid: '#e11d48'
+                        }
+                    },
+                    boxShadow: {
+                        'premium': '0 10px 30px -10px rgba(2, 132, 199, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05)',
+                        'card': '0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .header-title {
+            font-family: 'Outfit', sans-serif;
+        }
+        /* Soft pulsing animations */
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .8; transform: scale(0.98); }
+        }
+        .pulse-saving {
+            animation: pulse-soft 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col pb-12">
+
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm px-4 lg:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <!-- Logo & Brand Header -->
+            <div class="flex items-center gap-3.5">
+                <div class="p-2.5 bg-gradient-to-tr from-nitte-900 to-nitte-600 rounded-xl text-white shadow-md">
+                    <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="header-title font-black text-xl text-slate-900 tracking-tight leading-none">NITTE Institute of Architecture</h1>
+                    <p class="text-[11px] font-bold text-nitte-600 uppercase tracking-widest flex items-center gap-1.5 mt-1.5">
+                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Academic Calendar & Planner 2026-27
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Faculty Access and Auto-save status -->
+            <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                
+                <!-- Google Docs style saving indicator -->
+                <div id="save-status" class="flex items-center gap-2 px-3 py-1.5 bg-slate-100 rounded-full text-slate-600 text-xs font-semibold mr-2 transition-all duration-300">
+                    <i class="fa-solid fa-cloud-check text-emerald-500"></i>
+                    <span id="save-status-text">Saved locally</span>
+                </div>
+
+                <!-- Lock State Badge -->
+                <div id="lock-badge" class="flex items-center gap-2 px-3 py-2 bg-slate-100 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold shadow-sm">
+                    <i class="fa-solid fa-lock text-slate-500"></i>
+                    <span>Student View</span>
+                </div>
+
+                <!-- Primary Faculty Toggle -->
+                <button id="btn-faculty-toggle" onclick="promptFacultyLogin()" class="flex items-center gap-2 px-4 py-2 bg-nitte-700 hover:bg-nitte-800 text-white rounded-xl font-bold text-xs transition duration-150 shadow-md">
+                    <i class="fa-solid fa-user-shield"></i> Faculty Login
+                </button>
+
+                <!-- Hidden Reset Button for Faculty only -->
+                <button id="btn-reset" onclick="resetToDefaultPrompt()" class="hidden px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl font-bold text-xs transition duration-150">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- Top Information Panel -->
+        <div class="bg-gradient-to-br from-slate-900 to-nitte-950 rounded-2xl p-6 text-white shadow-premium relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-nitte-700/20 via-transparent to-transparent"></div>
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="px-2.5 py-1 bg-white/10 rounded-full text-[10px] font-bold text-nitte-200 border border-white/10 uppercase tracking-widest">B. Arch (Sem III, V & VII)</span>
+                        <span class="px-2.5 py-1 bg-rose-500/20 rounded-full text-[10px] font-bold text-rose-200 border border-rose-500/30 uppercase tracking-widest">Reference: SEM 3_5_7_Academic_Calender_NIA_2026-27 (1).pdf</span>
+                    </div>
+                    <h2 class="header-title font-extrabold text-2xl sm:text-3xl tracking-tight text-white">Monsoon Semester Academic Blueprint</h2>
+                    <p class="text-slate-300 text-xs sm:text-sm max-w-2xl leading-relaxed">
+                        An easy-to-read guide for semester timelines, general holidays (GH), sessional evaluations, and university exams. Faculty members can unlock the edit button above to customize events instantly.
+                    </p>
+                </div>
+                
+                <!-- Quick Readout Widgets -->
+                <div class="grid grid-cols-2 gap-3 shrink-0">
+                    <div class="p-3 bg-white/5 rounded-xl border border-white/5 backdrop-blur-sm text-center">
+                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Total Active Days</p>
+                        <p id="dash-working-days" class="text-lg font-black text-emerald-400 mt-1">70 Days</p>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded-xl border border-white/5 backdrop-blur-sm text-center">
+                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">General Holidays</p>
+                        <p id="dash-holidays" class="text-lg font-black text-rose-400 mt-1">8 GH</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-card p-4 space-y-4">
+            
+            <!-- Legend (What the Colors Mean) -->
+            <div>
+                <h3 class="font-bold text-slate-700 text-xs uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-nitte-600"></i> Event Category Color Legend
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-6 gap-2">
+                    <div class="p-2.5 bg-rose-50 border border-rose-200 text-rose-900 rounded-xl text-xs font-bold flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-rose-600"></span> General Holiday (GH)
+                    </div>
+                    <div class="p-2.5 bg-violet-50 border border-violet-200 text-violet-900 rounded-xl text-xs font-bold flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-violet-600"></span> Sessionals & Reviews
+                    </div>
+                    <div class="p-2.5 bg-amber-50 border border-amber-200 text-amber-900 rounded-xl text-xs font-bold flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Feedback & Allocations
+                    </div>
+                    <div class="p-2.5 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-xl text-xs font-bold flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span> Sem Commencement
+                    </div>
+                    <div class="p-2.5 bg-sky-50 border border-sky-200 text-sky-900 rounded-xl text-xs font-bold flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span> Semester Exams (SEE)
+                    </div>
+                    <div class="p-2.5 bg-slate-50 border border-slate-200 text-slate-900 rounded-xl text-xs font-bold flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span> General Campus Events
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Filters, Layout View Switcher, and Search Bar -->
+            <div class="border-t border-slate-100 pt-4 flex flex-col lg:flex-row gap-4 items-center justify-between">
+                
+                <!-- Live Search -->
+                <div class="relative w-full lg:w-80">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" id="search-box" onkeyup="handleFilterAndSearch()" placeholder="Search activities or weeks..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-nitte-600 focus:bg-white transition">
+                </div>
+
+                <!-- Custom Filter Categories (Horizontal slider on mobile) -->
+                <div class="flex items-center gap-2 overflow-x-auto w-full lg:w-auto pb-1 lg:pb-0 scrollbar-none">
+                    <span class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider shrink-0 mr-1">Filter:</span>
+                    <button id="filter-all" onclick="setCategoryFilter('all')" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition shrink-0 bg-slate-900 text-white border-slate-900">All</button>
+                    <button id="filter-holiday" onclick="setCategoryFilter('holiday')" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition shrink-0 bg-white hover:bg-slate-50 border-slate-200 text-rose-700">Holidays</button>
+                    <button id="filter-sessional" onclick="setCategoryFilter('sessional')" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition shrink-0 bg-white hover:bg-slate-50 border-slate-200 text-violet-700">Exams</button>
+                    <button id="filter-general" onclick="setCategoryFilter('general')" class="px-3 py-1.5 rounded-lg text-xs font-bold border transition shrink-0 bg-white hover:bg-slate-50 border-slate-200 text-slate-700">General</button>
+                </div>
+
+                <!-- Layout View Toggle -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <span class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Layout:</span>
+                    <div class="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+                        <button id="layout-table" onclick="setLayoutMode('table')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition">
+                            <i class="fa-solid fa-table-list mr-1"></i> Table List
+                        </button>
+                        <button id="layout-cards" onclick="setLayoutMode('cards')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition">
+                            <i class="fa-solid fa-grip mr-1"></i> Grid Cards
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="faculty-controls" class="hidden bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-sm">
+                    <i class="fa-solid fa-user-lock text-sm"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-slate-900 text-sm">Faculty Edit Mode Enabled</h3>
+                    <p class="text-slate-600 text-[11px] font-medium">You now have permission to modify calendar days, insert new milestones, or delete entries. Changes save automatically.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 w-full md:w-auto">
+                <button onclick="openAddWeekModal()" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs transition shadow-sm">
+                    <i class="fa-solid fa-circle-plus"></i> Add New Academic Week
+                </button>
+                <button onclick="facultyLogout()" class="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl font-bold text-xs transition">
+                    <i class="fa-solid fa-right-from-bracket"></i> Lock View
+                </button>
+            </div>
+        </div>
+
+        <div id="calendar-view" class="transition-all duration-300">
+            <!-- Programmatic compilation rendered here -->
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Quick Summary Chart -->
+            <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-card overflow-hidden flex flex-col justify-between">
+                <div>
+                    <div class="bg-slate-900 p-4 text-white">
+                        <h3 class="font-extrabold font-outfit text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-calendar-check text-emerald-400"></i> Course Milestones at a Glance
+                        </h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-500 border-b border-slate-200 font-extrabold uppercase tracking-wider text-[10px]">
+                                    <th class="p-3">Programme</th>
+                                    <th class="p-3">Classes Commence</th>
+                                    <th class="p-3">Sessional Period (1, 2, 3)</th>
+                                    <th class="p-3">End of Classes</th>
+                                    <th class="p-3">Final CIE Upload</th>
+                                    <th class="p-3">Next Term Starts</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-slate-700 font-bold">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-3 font-extrabold text-slate-900 text-xs">B. Arch (UG)</td>
+                                    <td class="p-3 text-emerald-700">3 Aug 2026</td>
+                                    <td class="p-3 text-violet-700">Sept (W1), Oct (W2), Nov (W2)</td>
+                                    <td class="p-3 text-rose-700">21 Nov 2026</td>
+                                    <td class="p-3 text-amber-700">25 Nov 2026</td>
+                                    <td class="p-3 text-sky-700">11 Jan 2027</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="p-3 bg-amber-50 text-[11px] text-amber-900 font-medium flex items-center gap-2 border-t border-amber-100">
+                    <i class="fa-solid fa-circle-exclamation text-amber-600 text-sm"></i>
+                    <span>Minimum of <strong>50% CIE</strong> (Continuous Internal Evaluation) & <strong>80% Attendance</strong> is mandatory to write university end exams (SEE).</span>
+                </div>
+            </div>
+
+            <!-- Leadership / Signatories -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-card p-4 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-extrabold font-outfit text-slate-900 text-sm mb-3 flex items-center gap-2 uppercase tracking-wide">
+                        <i class="fa-solid fa-signature text-nitte-600"></i> Authorized Signatures
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+                            <p class="font-bold text-slate-800">Dr. Devakumar Thenchery & Dr. Aveek Ghosh</p>
+                            <p class="text-[10px] text-slate-500 font-semibold mt-0.5">Academic & Curricular Coordinators</p>
+                        </div>
+                        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+                            <p class="font-bold text-slate-800">Ar. Arul Paul</p>
+                            <p class="text-[10px] text-slate-500 font-semibold mt-0.5">Teaching Learning Process & Evaluation</p>
+                        </div>
+                        <div class="p-2.5 bg-nitte-50 rounded-xl border border-nitte-100 text-xs">
+                            <p class="font-extrabold text-nitte-900">Prof. Vinod Aranha</p>
+                            <p class="text-[10px] text-nitte-600 font-bold mt-0.5">Director, NIA</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    
+    <!-- Modal 1: Password Lock Prompt -->
+    <div id="modal-password" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="bg-slate-900 p-4 text-white flex justify-between items-center">
+                <h3 class="font-extrabold font-outfit text-sm">Faculty Portal Verification</h3>
+                <button onclick="closePasswordModal()" class="text-slate-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-5 space-y-4">
+                <p class="text-xs font-semibold text-slate-600 leading-relaxed">Enter your designated Faculty Code to enable changes and event controls.</p>
+                <div>
+                    <label class="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-1.5">Enter Password</label>
+                    <input type="password" id="faculty-password-input" placeholder="Type password here..." class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-nitte-600 focus:outline-none focus:border-nitte-600">
+                    <p class="text-[10px] text-slate-500 mt-2 font-medium">Demo Testing Key: <strong class="text-slate-700">faculty123</strong></p>
+                </div>
+                <div id="password-error" class="hidden text-xs font-bold text-rose-600">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i> Verification failed. Try again.
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button onclick="closePasswordModal()" class="px-4 py-2 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-bold transition">Cancel</button>
+                    <button onclick="verifyPassword()" class="px-5 py-2 bg-nitte-700 hover:bg-nitte-800 text-white rounded-xl text-xs font-bold transition shadow-md">Unlock Portal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Edit & Add Event to Week -->
+    <div id="modal-edit" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="bg-slate-950 p-4 text-white flex justify-between items-center">
+                <h3 class="font-extrabold font-outfit text-sm" id="edit-modal-title">Edit Week Milestones</h3>
+                <button onclick="closeEditModal()" class="text-slate-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded-lg">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <div class="p-5 space-y-4 max-h-[80vh] overflow-y-auto">
+                <!-- Current events inside the week -->
+                <div>
+                    <h4 class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-2">Current Milestones & Holidays</h4>
+                    <div id="modal-events-list" class="space-y-2">
+                        <!-- Populated programmatically -->
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- Add new milestone form -->
+                <div>
+                    <h4 class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-3">Add Event to this Week</h4>
+                    <form id="add-event-form" onsubmit="saveNewEvent(event)" class="space-y-3">
+                        <input type="hidden" id="modal-week-index">
+                        
+                        <div>
+                            <label class="block text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1.5">Description</label>
+                            <input type="text" id="new-event-text" required placeholder="e.g. Independence Day, First Sessional" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-nitte-600 focus:outline-none">
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1.5">Date Prefix</label>
+                                <input type="text" id="new-event-date-prefix" placeholder="e.g. 15 Aug" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-nitte-600 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1.5">Category Type</label>
+                                <select id="new-event-category" class="w-full px-2 py-2 border border-slate-300 rounded-xl text-xs font-bold text-slate-700 focus:ring-2 focus:ring-nitte-600 focus:outline-none">
+                                    <option value="general">⚪ General Event</option>
+                                    <option value="holiday">🔴 General Holiday (GH)</option>
+                                    <option value="sessional">🟣 Sessionals & Evaluations</option>
+                                    <option value="allocations">🟡 Allocations & Feedback</option>
+                                    <option value="start-end">🟢 Sem Commencement</option>
+                                    <option value="exams">🔵 University Exams (SEE)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-2 pt-2">
+                            <button type="button" onclick="closeEditModal()" class="px-4 py-2 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-bold transition">Cancel</button>
+                            <button type="submit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition shadow-sm">Add Milestone</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Add Week Modal -->
+    <div id="modal-add-week" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div class="bg-slate-950 p-4 text-white flex justify-between items-center">
+                <h3 class="font-extrabold font-outfit text-sm">Add New Calendar Week Block</h3>
+                <button onclick="closeAddWeekModal()" class="text-slate-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded-lg">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="saveNewWeek(event)" class="p-5 space-y-4">
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1.5">Week ID / No</label>
+                        <input type="text" id="add-week-no" required placeholder="e.g. 25" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-nitte-600 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1.5">Month</label>
+                        <input type="text" id="add-week-month" required placeholder="e.g. Jan" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-nitte-600 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1.5">Working Days</label>
+                        <input type="number" id="add-week-wd" required min="0" max="6" value="5" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-nitte-600 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Calendar Dates (Type the number/tag below)</label>
+                    <div class="grid grid-cols-4 gap-2.5">
+                        <div>
+                            <span class="block text-[9px] text-slate-400 font-extrabold text-center uppercase mb-1">Mon</span>
+                            <input type="text" id="add-day-mon" class="w-full py-1 text-center border rounded-lg text-xs font-bold">
+                        </div>
+                        <div>
+                            <span class="block text-[9px] text-slate-400 font-extrabold text-center uppercase mb-1">Tue</span>
+                            <input type="text" id="add-day-tue" class="w-full py-1 text-center border rounded-lg text-xs font-bold">
+                        </div>
+                        <div>
+                            <span class="block text-[9px] text-slate-400 font-extrabold text-center uppercase mb-1">Wed</span>
+                            <input type="text" id="add-day-wed" class="w-full py-1 text-center border rounded-lg text-xs font-bold">
+                        </div>
+                        <div>
+                            <span class="block text-[9px] text-slate-400 font-extrabold text-center uppercase mb-1">Thu</span>
+                            <input type="text" id="add-day-thu" class="w-full py-1 text-center border rounded-lg text-xs font-bold">
+                        </div>
+                        <div>
+                            <span class="block text-[9px] text-slate-400 font-extrabold text-center uppercase mb-1">Fri</span>
+                            <input type="text" id="add-day-fri" class="w-full py-1 text-center border rounded-lg text-xs font-bold">
+                        </div>
+                        <div>
+                            <span class="block text-[9px] text-slate-400 font-extrabold text-center uppercase mb-1">Sat</span>
+                            <input type="text" id="add-day-sat" class="w-full py-1 text-center border rounded-lg text-xs font-bold">
+                        </div>
+                        <div>
+                            <span class="block text-[9px] text-slate-400 font-extrabold text-center uppercase mb-1">Sun</span>
+                            <input type="text" id="add-day-sun" class="w-full py-1 text-center border rounded-lg text-xs font-bold">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeAddWeekModal()" class="px-4 py-2 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-bold transition">Cancel</button>
+                    <button type="submit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition shadow-sm">Save Week Block</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 4: Generic Warning/Confirmation replacements (NO Standard confirm dialogs) -->
+    <div id="modal-confirm" class="hidden fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 border-2 border-rose-100">
+            <div class="p-5 space-y-4 text-center">
+                <div class="w-12 h-12 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto">
+                    <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+                </div>
+                <h3 id="confirm-title" class="font-extrabold text-slate-900 text-base">Are you sure?</h3>
+                <p id="confirm-message" class="text-xs text-slate-600 font-semibold leading-relaxed">This action cannot be undone.</p>
+                <div class="flex justify-center gap-2 pt-2">
+                    <button id="confirm-btn-cancel" class="px-4 py-2 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-bold transition">Cancel</button>
+                    <button id="confirm-btn-action" class="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold transition shadow-sm">Confirm Action</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Engine -->
+    <div id="toast-wrapper" class="fixed bottom-5 right-5 z-50 space-y-2"></div>
+
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-xs mt-12 border-t border-slate-800">
+        <p class="font-bold text-slate-300">NITTE Institute of Architecture (Deemed to be University) &copy; 2026</p>
+        <p class="mt-1">Monsoon Semester B. Arch Calendar. Highly optimized for mobile devices & secure planning.</p>
+    </footer>
+
+    <script>
+        // Mapping category types to visually responsive styling tokens
+        const categoryMap = {
+            'holiday': {
+                label: 'General Holiday (GH)',
+                class: 'bg-rose-50 border-rose-200 text-rose-800',
+                dot: 'bg-rose-600',
+                badge: 'bg-rose-600 text-white'
+            },
+            'sessional': {
+                label: 'Sessionals & Evaluations',
+                class: 'bg-violet-50 border-violet-200 text-violet-800',
+                dot: 'bg-violet-600',
+                badge: 'bg-violet-600 text-white'
+            },
+            'allocations': {
+                label: 'Allocations & Feedbacks',
+                class: 'bg-amber-50 border-amber-200 text-amber-800',
+                dot: 'bg-amber-500',
+                badge: 'bg-amber-500 text-white'
+            },
+            'start-end': {
+                label: 'Commencement / Deadlines',
+                class: 'bg-emerald-50 border-emerald-200 text-emerald-800',
+                dot: 'bg-emerald-600',
+                badge: 'bg-emerald-600 text-white'
+            },
+            'exams': {
+                label: 'University Exams (SEE)',
+                class: 'bg-sky-50 border-sky-200 text-sky-800',
+                dot: 'bg-sky-600',
+                badge: 'bg-sky-600 text-white'
+            },
+            'general': {
+                label: 'General / Activities',
+                class: 'bg-slate-50 border-slate-200 text-slate-800',
+                dot: 'bg-slate-500',
+                badge: 'bg-slate-600 text-white'
+            }
+        };
+
+        // Official calendar master model direct from reference file
+        const originalCalendarMaster = [
+            {
+                week: "1",
+                month: "Aug",
+                dates: { Mon: "3 OR/COC", Tue: "4", Wed: "5", Thu: "6", Fri: "7", Sat: "8", Sun: "9" },
+                workingDays: 5,
+                events: [
+                    { id: "e1", text: "Orientation & Class Commencement, selection of studios & electives", category: "start-end" },
+                    { id: "e2", text: "First allocation of studios and electives", category: "allocations" },
+                    { id: "e3", text: "Final allocation of studios and electives", category: "allocations" }
+                ]
+            },
+            {
+                week: "2",
+                month: "Aug",
+                dates: { Mon: "10", Tue: "11", Wed: "12", Thu: "13", Fri: "14", Sat: "15 GH", Sun: "16" },
+                workingDays: 4,
+                events: [
+                    { id: "e4", text: "Roll out NU eLearn course pages", category: "general" },
+                    { id: "e5", text: "First evaluation (to be conducted by coordinates)", category: "sessional" },
+                    { id: "e6", text: "Independence Day", category: "holiday" }
+                ]
+            },
+            {
+                week: "3",
+                month: "Aug",
+                dates: { Mon: "17 GH", Tue: "18", Wed: "19", Thu: "20", Fri: "21", Sat: "22", Sun: "23" },
+                workingDays: 4,
+                events: [
+                    { id: "e7", text: "Nagara Panchami", category: "holiday" },
+                    { id: "e8", text: "Field trips (optional)", category: "general" }
+                ]
+            },
+            {
+                week: "4 & 5",
+                month: "Aug/Sep",
+                dates: { Mon: "24 / 31", Tue: "25 / 1", Wed: "26 / 2", Thu: "27 / 3", Fri: "28 / 4", Sat: "29 / 5", Sun: "30 / 6" },
+                workingDays: 10,
+                events: [
+                    { id: "e9", text: "Student Council Inauguration 2026-27", category: "general" },
+                    { id: "e10", text: "Onam Celebration", category: "general" },
+                    { id: "e11", text: "First Sessional Evaluation Period", category: "sessional" }
+                ]
+            },
+            {
+                week: "6",
+                month: "Sep",
+                dates: { Mon: "7", Tue: "8", Wed: "9", Thu: "10", Fri: "11", Sat: "12", Sun: "13" },
+                workingDays: 5,
+                events: [
+                    { id: "e12", text: "NIA Conversation 1", category: "general" },
+                    { id: "e13", text: "Publication of first sessional results", category: "sessional" }
+                ]
+            },
+            {
+                week: "7",
+                month: "Sep",
+                dates: { Mon: "14 GH", Tue: "15", Wed: "16", Thu: "17", Fri: "18", Sat: "19", Sun: "20" },
+                workingDays: 4,
+                events: [
+                    { id: "e14", text: "Vinayaka Chaturthi", category: "holiday" },
+                    { id: "e15", text: "First student and Faculty feedback cycle", category: "allocations" }
+                ]
+            },
+            {
+                week: "8",
+                month: "Sep",
+                dates: { Mon: "21", Tue: "22", Wed: "23", Thu: "24", Fri: "25", Sat: "26", Sun: "27" },
+                workingDays: 5,
+                events: [
+                    { id: "e16", text: "Cultural Day Celebration", category: "general" }
+                ]
+            },
+            {
+                week: "9",
+                month: "Sep/Oct",
+                dates: { Mon: "28", Tue: "29", Wed: "30", Thu: "1", Fri: "2 GH", Sat: "3", Sun: "4" },
+                workingDays: 4,
+                events: [
+                    { id: "e17", text: "Gandhi Jayanthi", category: "holiday" }
+                ]
+            },
+            {
+                week: "10",
+                month: "Oct",
+                dates: { Mon: "5", Tue: "6", Wed: "7", Thu: "8", Fri: "9", Sat: "10", Sun: "11" },
+                workingDays: 5,
+                events: [
+                    { id: "e18", text: "Second Sessional Period", category: "sessional" },
+                    { id: "e19", text: "World Architecture Day celebration / NIA Conversation 2", category: "general" }
+                ]
+            },
+            {
+                week: "11",
+                month: "Oct",
+                dates: { Mon: "12", Tue: "13", Wed: "14", Thu: "15", Fri: "16", Sat: "17", Sun: "18" },
+                workingDays: 5,
+                events: [
+                    { id: "e20", text: "Publication of second sessional results", category: "sessional" },
+                    { id: "e21", text: "Second student and faculty feedback", category: "allocations" }
+                ]
+            },
+            {
+                week: "12",
+                month: "Oct",
+                dates: { Mon: "19", Tue: "20", Wed: "21 GH", Thu: "22", Fri: "23", Sat: "24", Sun: "25" },
+                workingDays: 4,
+                events: [
+                    { id: "e22", text: "Vijaya Dashami", category: "holiday" },
+                    { id: "e23", text: "Sports Day events", category: "general" }
+                ]
+            },
+            {
+                week: "13",
+                month: "Oct/Nov",
+                dates: { Mon: "26", Tue: "27", Wed: "28", Thu: "29", Fri: "30", Sat: "31", Sun: "1" },
+                workingDays: 5,
+                events: []
+            },
+            {
+                week: "14",
+                month: "Nov",
+                dates: { Mon: "2", Tue: "3", Wed: "4", Thu: "5", Fri: "6", Sat: "7", Sun: "8" },
+                workingDays: 5,
+                events: [
+                    { id: "e24", text: "Third Sessional Period", category: "sessional" }
+                ]
+            },
+            {
+                week: "15",
+                month: "Nov",
+                dates: { Mon: "9 BH", Tue: "10 GH", Wed: "11", Thu: "12", Fri: "13", Sat: "14 CWD", Sun: "15" },
+                workingDays: 4,
+                events: [
+                    { id: "e25", text: "Bridge Holiday", category: "holiday" },
+                    { id: "e26", text: "Balipadyami / Deepavali Holiday", category: "holiday" },
+                    { id: "e27", text: "Publication of third sessional results", category: "sessional" },
+                    { id: "e28", text: "Tentative CIE publication to students", category: "allocations" },
+                    { id: "e29", text: "CIE Appeal Process window", category: "allocations" },
+                    { id: "e30", text: "Compensatory Working Day", category: "general" }
+                ]
+            },
+            {
+                week: "16",
+                month: "Nov",
+                dates: { Mon: "16 SEE App", Tue: "17", Wed: "18 SEE Pen", Thu: "19", Fri: "20", Sat: "21 EoC", Sun: "22" },
+                workingDays: 6,
+                events: [
+                    { id: "e31", text: "Last date for SEE examination application", category: "start-end" },
+                    { id: "e32", text: "Last date for SEE with penalty fee payment", category: "start-end" },
+                    { id: "e33", text: "End of Classes", category: "start-end" }
+                ]
+            },
+            {
+                week: "17",
+                month: "Nov",
+                dates: { Mon: "23", Tue: "24", Wed: "25 Final CIE", Thu: "26", Fri: "27", Sat: "28", Sun: "29" },
+                workingDays: 0,
+                events: [
+                    { id: "e34", text: "Final Attendance & CIE Ledger Submission", category: "start-end" }
+                ]
+            },
+            {
+                week: "18",
+                month: "Nov/Dec",
+                dates: { Mon: "30", Tue: "1", Wed: "2", Thu: "3", Fri: "4", Sat: "5", Sun: "6" },
+                workingDays: 0,
+                events: [
+                    { id: "e35", text: "Commencement of University Examination (tentative)", category: "exams" }
+                ]
+            },
+            {
+                week: "19",
+                month: "Dec",
+                dates: { Mon: "7", Tue: "8", Wed: "9", Thu: "10", Fri: "11", Sat: "12", Sun: "13" },
+                workingDays: 0,
+                events: []
+            },
+            {
+                week: "20",
+                month: "Dec",
+                dates: { Mon: "14", Tue: "15", Wed: "16", Thu: "17", Fri: "18", Sat: "19", Sun: "20" },
+                workingDays: 0,
+                events: []
+            },
+            {
+                week: "21",
+                month: "Dec",
+                dates: { Mon: "21", Tue: "22", Wed: "23", Thu: "24", Fri: "25 GH", Sat: "26", Sun: "27" },
+                workingDays: 0,
+                events: [
+                    { id: "e36", text: "End of University Examination (tentative)", category: "exams" },
+                    { id: "e37", text: "Christmas Holiday", category: "holiday" }
+                ]
+            },
+            {
+                week: "22",
+                month: "Dec/Jan",
+                dates: { Mon: "28", Tue: "29", Wed: "30", Thu: "31", Fri: "1", Sat: "2", Sun: "3" },
+                workingDays: 0,
+                events: []
+            },
+            {
+                week: "23",
+                month: "Jan",
+                dates: { Mon: "4", Tue: "5", Wed: "6", Thu: "7", Fri: "8", Sat: "9", Sun: "10" },
+                workingDays: 0,
+                events: [
+                    { id: "e38", text: "Winter School Session", category: "general" }
+                ]
+            },
+            {
+                week: "24",
+                month: "Jan",
+                dates: { Mon: "11 OR/COC", Tue: "12", Wed: "13", Thu: "14", Fri: "15", Sat: "16", Sun: "17" },
+                workingDays: 5,
+                events: [
+                    { id: "e39", text: "Orientation & Class Commencement (Even Sem)", category: "start-end" }
+                ]
+            }
+        ];
+
+        let currentCalendarData = [];
+        let isFacultyLoggedIn = false;
+        let activeFilter = 'all';
+        let searchQuery = '';
+        let layoutMode = 'table'; // 'table' or 'cards'
+        const correctPasswordHash = "faculty123";
+
+        // Initialize App on window onload
+        window.onload = function () {
+            // Load from localStorage or fall back to default
+            const localData = localStorage.getItem('nitte_calendar_v3');
+            if (localData) {
+                try {
+                    currentCalendarData = JSON.parse(localData);
+                } catch (e) {
+                    currentCalendarData = JSON.parse(JSON.stringify(originalCalendarMaster));
+                }
+            } else {
+                currentCalendarData = JSON.parse(JSON.stringify(originalCalendarMaster));
+            }
+
+            // Detect screen sizes on load to set dynamic layout default
+            if (window.innerWidth < 1024) {
+                layoutMode = 'cards';
+            }
+
+            isFacultyLoggedIn = localStorage.getItem('nitte_faculty_auth') === 'true';
+
+            updateAuthUI();
+            calculateSummaryStats();
+            renderCalendarView();
+        };
+
+        function calculateSummaryStats() {
+            let totalWD = 0;
+            let totalGH = 0;
+
+            currentCalendarData.forEach(item => {
+                totalWD += parseInt(item.workingDays || 0);
+                item.events.forEach(e => {
+                    if (e.category === 'holiday') {
+                        totalGH++;
+                    }
+                });
+            });
+
+            document.getElementById('dash-working-days').innerHTML = `<i class="fa-solid fa-business-time mr-1 text-emerald-400"></i> ${totalWD} Days`;
+            document.getElementById('dash-holidays').innerHTML = `<i class="fa-solid fa-umbrella-beach mr-1 text-rose-400"></i> ${totalGH} Days`;
+        }
+
+        function triggerAutoSave() {
+            localStorage.setItem('nitte_calendar_v3', JSON.stringify(currentCalendarData));
+            calculateSummaryStats();
+            
+            // Render beautiful saving update status
+            const statusEl = document.getElementById('save-status');
+            const statusText = document.getElementById('save-status-text');
+            
+            statusEl.className = "flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full text-xs font-semibold mr-2 pulse-saving";
+            statusText.textContent = "Saving drafts...";
+
+            setTimeout(() => {
+                statusEl.className = "flex items-center gap-2 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-xs font-semibold mr-2";
+                statusText.textContent = "Saved to storage";
+            }, 1000);
+        }
+
+        function promptFacultyLogin() {
+            if (isFacultyLoggedIn) {
+                facultyLogout();
+            } else {
+                document.getElementById('faculty-password-input').value = '';
+                document.getElementById('password-error').classList.add('hidden');
+                document.getElementById('modal-password').classList.remove('hidden');
+            }
+        }
+
+        function closePasswordModal() {
+            document.getElementById('modal-password').classList.add('hidden');
+        }
+
+        function verifyPassword() {
+            const val = document.getElementById('faculty-password-input').value;
+            if (val === correctPasswordHash) {
+                isFacultyLoggedIn = true;
+                localStorage.setItem('nitte_faculty_auth', 'true');
+                closePasswordModal();
+                updateAuthUI();
+                renderCalendarView();
+                showCustomToast("Faculty Edit Suite Unlocked!", "success");
+            } else {
+                document.getElementById('password-error').classList.remove('hidden');
+            }
+        }
+
+        function facultyLogout() {
+            isFacultyLoggedIn = false;
+            localStorage.setItem('nitte_faculty_auth', 'false');
+            updateAuthUI();
+            renderCalendarView();
+            showCustomToast("Logged out of Edit Suite. Student mode enabled.", "info");
+        }
+
+        function updateAuthUI() {
+            const toggleBtn = document.getElementById('btn-faculty-toggle');
+            const badge = document.getElementById('lock-badge');
+            const resetBtn = document.getElementById('btn-reset');
+            const controlsBar = document.getElementById('faculty-controls');
+
+            if (isFacultyLoggedIn) {
+                toggleBtn.innerHTML = '<i class="fa-solid fa-lock"></i> Exit Faculty Mode';
+                toggleBtn.className = "flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold text-xs transition duration-150 shadow-md";
+                badge.innerHTML = '<i class="fa-solid fa-unlock text-emerald-500"></i> <span class="text-emerald-700">Faculty Mode</span>';
+                badge.className = "flex items-center gap-2 px-3 py-2 bg-emerald-50 border border-emerald-200 text-slate-700 rounded-xl text-xs font-bold shadow-sm animate-pulse";
+                resetBtn.classList.remove('hidden');
+                controlsBar.classList.remove('hidden');
+            } else {
+                toggleBtn.innerHTML = '<i class="fa-solid fa-user-shield"></i> Faculty Login';
+                toggleBtn.className = "flex items-center gap-2 px-4 py-2 bg-nitte-700 hover:bg-nitte-800 text-white rounded-xl font-bold text-xs transition duration-150 shadow-md";
+                badge.innerHTML = '<i class="fa-solid fa-lock text-slate-500"></i> <span>Student View (Read-Only)</span>';
+                badge.className = "flex items-center gap-2 px-3 py-2 bg-slate-100 border border-slate-200 text-slate-700 rounded-xl text-xs font-bold shadow-sm";
+                resetBtn.classList.add('hidden');
+                controlsBar.classList.add('hidden');
+            }
+        }
+
+        function handleFilterAndSearch() {
+            searchQuery = document.getElementById('search-box').value.toLowerCase();
+            renderCalendarView();
+        }
+
+        function setCategoryFilter(cat) {
+            activeFilter = cat;
+            
+            // Highlight selected filter pill
+            ['all', 'holiday', 'sessional', 'general'].forEach(item => {
+                const el = document.getElementById(`filter-${item}`);
+                if (item === cat) {
+                    el.className = "px-3 py-1.5 rounded-lg text-xs font-black border transition shrink-0 bg-slate-900 text-white border-slate-900 shadow-sm";
+                } else {
+                    let colorClass = "text-slate-700";
+                    if (item === 'holiday') colorClass = "text-rose-700";
+                    if (item === 'sessional') colorClass = "text-violet-700";
+                    el.className = `px-3 py-1.5 rounded-lg text-xs font-bold border transition shrink-0 bg-white hover:bg-slate-50 border-slate-200 ${colorClass}`;
+                }
+            });
+
+            renderCalendarView();
+        }
+
+        function setLayoutMode(mode) {
+            layoutMode = mode;
+            const tableBtn = document.getElementById('layout-table');
+            const cardBtn = document.getElementById('layout-cards');
+
+            if (mode === 'table') {
+                tableBtn.className = "px-3 py-1.5 bg-slate-800 text-white rounded-lg text-xs font-black transition shadow-sm";
+                cardBtn.className = "px-3 py-1.5 text-slate-500 hover:text-slate-800 rounded-lg text-xs font-bold transition";
+            } else {
+                cardBtn.className = "px-3 py-1.5 bg-slate-800 text-white rounded-lg text-xs font-black transition shadow-sm";
+                tableBtn.className = "px-3 py-1.5 text-slate-500 hover:text-slate-800 rounded-lg text-xs font-bold transition";
+            }
+            renderCalendarView();
+        }
+
+        // Helper: Check if string has holiday identifier
+        function isHolidayDay(text) {
+            if (!text) return false;
+            return text.toUpperCase().includes('GH') || text.toUpperCase().includes('BH') || text.toUpperCase().includes('HOLIDAY');
+        }
+
+        function renderCalendarView() {
+            const container = document.getElementById('calendar-view');
+            container.innerHTML = '';
+
+            // Filter down local dataset
+            const filteredData = currentCalendarData.filter(row => {
+                const matchesSearch = searchQuery === '' || 
+                    row.month.toLowerCase().includes(searchQuery) || 
+                    row.week.includes(searchQuery) ||
+                    row.events.some(e => e.text.toLowerCase().includes(searchQuery));
+                
+                const matchesCategory = activeFilter === 'all' || 
+                    row.events.some(e => e.category === activeFilter);
+
+                return matchesSearch && matchesCategory;
+            });
+
+            if (filteredData.length === 0) {
+                container.innerHTML = `
+                    <div class="p-12 text-center bg-white rounded-2xl border border-slate-200/80 shadow-sm">
+                        <i class="fa-solid fa-calendar-minus text-4xl text-slate-300"></i>
+                        <h4 class="font-extrabold text-slate-800 mt-4 text-base">No Matching Entries Found</h4>
+                        <p class="text-xs text-slate-500 mt-1">Try resetting filters or clear your active search query.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            if (layoutMode === 'table') {
+                container.innerHTML = generateTableViewHTML(filteredData);
+            } else {
+                container.innerHTML = generateCardsViewHTML(filteredData);
+            }
+        }
+
+        function generateTableViewHTML(data) {
+            let html = `
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-premium overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[950px]">
+                        <thead>
+                            <tr class="bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest border-b border-slate-800">
+                                <th class="p-4 text-center w-16">Week</th>
+                                <th class="p-4 w-20">Month</th>
+                                <th class="p-3 text-center border-l border-slate-800/20">Mon</th>
+                                <th class="p-3 text-center">Tue</th>
+                                <th class="p-3 text-center">Wed</th>
+                                <th class="p-3 text-center">Thu</th>
+                                <th class="p-3 text-center">Fri</th>
+                                <th class="p-3 text-center">Sat</th>
+                                <th class="p-3 text-center">Sun</th>
+                                <th class="p-4 text-center border-l border-slate-800/20 w-24">Working Days</th>
+                                <th class="p-4 border-l border-slate-800/20">Events, Holidays & Deadlines</th>
+                                ${isFacultyLoggedIn ? '<th class="p-4 text-center w-24">Actions</th>' : ''}
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-150 text-xs font-semibold">
+            `;
+
+            data.forEach((row) => {
+                const actualIndex = currentCalendarData.findIndex(item => item.week === row.week);
+                const hasHoliday = row.events.some(e => e.category === 'holiday');
+
+                html += `
+                <tr class="hover:bg-slate-50/60 transition duration-700 ${hasHoliday ? 'bg-rose-50/25' : ''}">
+                    <!-- Week Column -->
+                    <td class="p-4 text-center bg-slate-50 font-black text-slate-900 border-r border-slate-200 text-sm">Wk ${row.week}</td>
+                    
+                    <!-- Month Column -->
+                    <td class="p-4 text-slate-700 font-extrabold text-xs uppercase tracking-wide">${row.month}</td>
+                    
+                    <!-- 7-Day Matrix with High Contrast Highlights -->
+                    ${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => {
+                        const cellText = row.dates[day] || '';
+                        let styleClass = 'bg-slate-50/50 text-slate-800 border border-slate-100';
+
+                        if (isHolidayDay(cellText)) {
+                            styleClass = 'bg-rose-600 text-white font-extrabold shadow-sm rounded-lg border-2 border-rose-400';
+                        } else if (cellText.includes('OR') || cellText.includes('COC') || cellText.includes('EoC') || cellText.includes('CIE')) {
+                            styleClass = 'bg-emerald-600 text-white font-extrabold rounded-lg border border-emerald-400';
+                        } else if (cellText.includes('CWD')) {
+                            styleClass = 'bg-violet-600 text-white font-extrabold rounded-lg border border-violet-400';
+                        }
+
+                        return `
+                        <td class="p-1.5 text-center min-w-[50px]">
+                            <div class="py-2 px-1 rounded-lg transition-transform hover:scale-105 ${styleClass}">
+                                <span class="block text-[11px] leading-tight">${cellText}</span>
+                            </div>
+                        </td>
+                        `;
+                    }).join('')}
+                    
+                    <!-- Working Days Input/Indicator -->
+                    <td class="p-4 text-center border-l border-slate-100/80 bg-slate-50/30">
+                        ${isFacultyLoggedIn ? `
+                            <input type="number" min="0" max="7" value="${row.workingDays}" onchange="inlineUpdateWorkingDays(${actualIndex}, this.value)" class="w-12 text-center bg-white border border-slate-300 focus:ring-2 focus:ring-nitte-600 rounded-lg p-1 font-bold text-xs transition shadow-sm">
+                        ` : `
+                            <span class="px-2.5 py-1 bg-slate-100 border border-slate-200 rounded-full text-[11px] font-black text-slate-700">${row.workingDays} Days</span>
+                        `}
+                    </td>
+
+                    <!-- Dynamic Milestones listing -->
+                    <td class="p-4 border-l border-slate-100/80 space-y-1.5 min-w-[300px]">
+                        ${row.events.length > 0 ? 
+                            row.events.map(e => {
+                                const cfg = categoryMap[e.category] || categoryMap['general'];
+                                const isHoliday = e.category === 'holiday';
+                                return `
+                                <div class="flex items-center justify-between gap-3 p-2 rounded-xl border transition shadow-sm hover:shadow-md ${cfg.class} ${isHoliday ? 'ring-2 ring-rose-200' : ''}">
+                                    <div class="flex items-start gap-2.5">
+                                        <span class="w-2.5 h-2.5 rounded-full mt-1 shrink-0 ${cfg.dot}"></span>
+                                        <span class="font-extrabold leading-relaxed text-[11.5px]">${e.text}</span>
+                                    </div>
+                                    ${isFacultyLoggedIn ? `
+                                        <button onclick="deleteMilestone(${actualIndex}, '${e.id}')" title="Delete Milestone" class="w-6 h-6 flex items-center justify-center bg-white hover:bg-rose-600 hover:text-white rounded-lg text-slate-400 transition shadow-sm border border-slate-200/50">
+                                            <i class="fa-solid fa-trash-can text-[10px]"></i>
+                                        </button>
+                                    ` : ''}
+                                </div>
+                                `;
+                            }).join('') 
+                            : `<span class="text-slate-400 italic text-xs">No entries scheduled</span>`
+                        }
+                    </td>
+
+                    <!-- Actions column if Faculty is Logged In -->
+                    ${isFacultyLoggedIn ? `
+                        <td class="p-4 text-center border-l">
+                            <div class="flex items-center justify-center gap-1">
+                                <button onclick="openEditModal(${actualIndex})" title="Edit Events" class="w-8 h-8 flex items-center justify-center bg-nitte-50 hover:bg-nitte-600 text-nitte-800 hover:text-white border border-nitte-100 rounded-xl transition shadow-sm">
+                                    <i class="fa-solid fa-plus-circle text-xs"></i>
+                                </button>
+                                <button onclick="deleteWeekConfirm(${actualIndex})" title="Remove Week" class="w-8 h-8 flex items-center justify-center bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white border border-rose-100 rounded-xl transition shadow-sm">
+                                    <i class="fa-solid fa-trash-can text-xs"></i>
+                                </button>
+                            </div>
+                        </td>
+                    ` : ''}
+                </tr>
+                `;
+            });
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            `;
+            return html;
+        }
+
+        function generateCardsViewHTML(data) {
+            let html = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">`;
+
+            data.forEach((row) => {
+                const actualIndex = currentCalendarData.findIndex(item => item.week === row.week);
+                const hasHoliday = row.events.some(e => e.category === 'holiday');
+
+                html += `
+                <div class="bg-white rounded-2xl border-2 ${hasHoliday ? 'border-rose-200 shadow-rose-50/50' : 'border-slate-200'} shadow-card p-4 flex flex-col justify-between relative overflow-hidden">
+                    
+                    <div>
+                        <!-- Header Week Info -->
+                        <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+                            <div>
+                                <span class="text-[10px] font-black text-nitte-800 bg-nitte-100 px-2.5 py-1 rounded-lg uppercase tracking-wider">Week ${row.week}</span>
+                                <h4 class="font-extrabold text-slate-900 text-sm mt-1.5 flex items-center gap-1.5 uppercase">
+                                    <i class="fa-solid fa-calendar-days text-nitte-600"></i> ${row.month} 2026
+                                </h4>
+                            </div>
+                            <span class="text-xs font-black text-slate-800 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
+                                ${row.workingDays} Active Days
+                            </span>
+                        </div>
+
+                        <!-- 7-Day Strip Map -->
+                        <div class="mt-4">
+                            <p class="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest mb-1.5">Date Sheet</p>
+                            <div class="grid grid-cols-7 gap-1">
+                                ${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => {
+                                    const val = row.dates[day] || '';
+                                    const isGH = isHolidayDay(val);
+                                    let activeClass = 'bg-slate-50 text-slate-700 border-slate-100';
+
+                                    if (isGH) {
+                                        activeClass = 'bg-rose-600 text-white font-extrabold border-rose-500 shadow-sm';
+                                    } else if (val.includes('COC') || val.includes('OR') || val.includes('EoC') || val.includes('CIE')) {
+                                        activeClass = 'bg-emerald-600 text-white font-extrabold border-emerald-500';
+                                    } else if (val.includes('CWD')) {
+                                        activeClass = 'bg-violet-600 text-white font-extrabold border-violet-500';
+                                    }
+
+                                    return `
+                                    <div class="p-1 rounded-lg border text-center flex flex-col items-center justify-center min-h-[44px] ${activeClass}">
+                                        <span class="text-[8px] font-bold uppercase opacity-80">${day[0]}</span>
+                                        <span class="text-[10.5px] font-black mt-0.5 leading-none">${val.split(' ')[0]}</span>
+                                    </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Milestones / Events Listing -->
+                        <div class="space-y-2 mt-4">
+                            <p class="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">Schedules & Landmarks</p>
+                            ${row.events.length > 0 ? 
+                                row.events.map(e => {
+                                    const cfg = categoryMap[e.category] || categoryMap['general'];
+                                    const isHoliday = e.category === 'holiday';
+                                    return `
+                                    <div class="flex items-start justify-between gap-2.5 p-2.5 rounded-xl border-l-4 ${cfg.class} shadow-sm">
+                                        <div class="flex items-start gap-2">
+                                            <span class="w-2 h-2 rounded-full mt-1.5 shrink-0 ${cfg.dot}"></span>
+                                            <span class="font-extrabold text-xs text-slate-900 leading-relaxed">${e.text}</span>
+                                        </div>
+                                        ${isFacultyLoggedIn ? `
+                                            <button onclick="deleteMilestone(${actualIndex}, '${e.id}')" class="w-6 h-6 flex items-center justify-center bg-white hover:bg-rose-600 hover:text-white rounded-lg text-slate-400 transition shadow-sm border border-slate-200/50 shrink-0">
+                                                <i class="fa-solid fa-trash-can text-[10px]"></i>
+                                            </button>
+                                        ` : ''}
+                                    </div>
+                                    `;
+                                }).join('') 
+                                : `<span class="text-slate-400 text-xs italic block text-center py-4 bg-slate-50 rounded-xl border border-dashed">No scheduled landmarks</span>`
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Custom Card Faculty Action Overlay -->
+                    ${isFacultyLoggedIn ? `
+                        <div class="mt-4 pt-3 border-t border-slate-150 flex items-center gap-2">
+                            <button onclick="openEditModal(${actualIndex})" class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-nitte-50 hover:bg-nitte-600 text-nitte-800 hover:text-white rounded-xl text-xs font-bold transition shadow-sm">
+                                <i class="fa-solid fa-plus-circle"></i> Add Milestone
+                            </button>
+                            <button onclick="deleteWeekConfirm(${actualIndex})" class="w-9 h-9 flex items-center justify-center bg-rose-50 hover:bg-rose-600 text-rose-500 hover:text-white border border-rose-100 rounded-xl transition shadow-sm" title="Delete Week Segment">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    ` : ''}
+
+                </div>
+                `;
+            });
+
+            html += `</div>`;
+            return html;
+        }
+
+        function inlineUpdateWorkingDays(index, value) {
+            const intVal = parseInt(value);
+            if (intVal >= 0 && intVal <= 7) {
+                currentCalendarData[index].workingDays = intVal;
+                triggerAutoSave();
+                showCustomToast(`Working Days updated for Week ${currentCalendarData[index].week}.`, "success");
+            } else {
+                showCustomToast("Days count must fall between 0 and 7.", "error");
+                renderCalendarView();
+            }
+        }
+
+        function deleteMilestone(weekIndex, eventId) {
+            const eventIndex = currentCalendarData[weekIndex].events.findIndex(e => e.id === eventId);
+            if (eventIndex > -1) {
+                const deletedName = currentCalendarData[weekIndex].events[eventIndex].text;
+                currentCalendarData[weekIndex].events.splice(eventIndex, 1);
+                triggerAutoSave();
+                renderCalendarView();
+                
+                // Keep active edit modal updated if it's open
+                const modalVisible = !document.getElementById('modal-edit').classList.contains('hidden');
+                if (modalVisible) {
+                    openEditModal(weekIndex);
+                }
+                
+                showCustomToast(`Removed: "${deletedName}"`, "info");
+            }
+        }
+
+        function deleteWeekConfirm(index) {
+            const weekNo = currentCalendarData[index].week;
+            openConfirmModal(
+                `Confirm Week deletion`, 
+                `Are you sure you want to completely delete Week ${weekNo} from the master calendar?`, 
+                function() {
+                    currentCalendarData.splice(index, 1);
+                    triggerAutoSave();
+                    renderCalendarView();
+                    showCustomToast(`Week ${weekNo} deleted.`, "info");
+                }
+            );
+        }
+
+        // Custom Modal handlers for edit form
+        function openEditModal(index) {
+            const row = currentCalendarData[index];
+            document.getElementById('modal-week-index').value = index;
+            document.getElementById('edit-modal-title').innerHTML = `<i class="fa-solid fa-file-signature text-emerald-400 mr-2"></i> Week ${row.week} Milestone Manager (${row.month})`;
+            
+            const listEl = document.getElementById('modal-events-list');
+            listEl.innerHTML = '';
+
+            if (row.events.length === 0) {
+                listEl.innerHTML = `<p class="text-xs text-slate-400 italic py-4 text-center bg-slate-50 rounded-xl border border-dashed">No scheduled items. Add a milestone below.</p>`;
+            } else {
+                row.events.forEach(e => {
+                    const cfg = categoryMap[e.category] || categoryMap['general'];
+                    listEl.innerHTML += `
+                    <div class="flex items-center justify-between p-2 rounded-xl border ${cfg.class} text-xs font-bold">
+                        <span class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full ${cfg.dot}"></span>
+                            ${e.text}
+                        </span>
+                        <button type="button" onclick="deleteMilestone(${index}, '${e.id}')" class="px-2 py-1 bg-white hover:bg-rose-600 hover:text-white rounded-lg text-slate-500 transition shadow-xs text-[11px] font-bold border border-slate-200">
+                            Delete
+                        </button>
+                    </div>
+                    `;
+                });
+            }
+
+            document.getElementById('new-event-text').value = '';
+            document.getElementById('new-event-date-prefix').value = '';
+            document.getElementById('new-event-category').value = 'general';
+
+            document.getElementById('modal-edit').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('modal-edit').classList.add('hidden');
+        }
+
+        function saveNewEvent(event) {
+            event.preventDefault();
+            const index = document.getElementById('modal-week-index').value;
+            const text = document.getElementById('new-event-text').value;
+            const prefix = document.getElementById('new-event-date-prefix').value;
+            const category = document.getElementById('new-event-category').value;
+
+            let finalString = text;
+            if (prefix) {
+                finalString = `${prefix}: ${text}`;
+            }
+
+            // If a holiday is being added with a specific date, update the days strip as well
+            if (category === 'holiday' && prefix) {
+                const cleanDate = parseInt(prefix);
+                if (!isNaN(cleanDate)) {
+                    ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach(d => {
+                        let originalDayVal = currentCalendarData[index].dates[d] || '';
+                        let originalNum = parseInt(originalDayVal);
+                        if (originalNum === cleanDate && !originalDayVal.includes('GH')) {
+                            currentCalendarData[index].dates[d] = `${originalNum} GH`;
+                        }
+                    });
+                }
+            }
+
+            const newEvent = {
+                id: 'evt_' + Date.now(),
+                text: finalString,
+                category: category
+            };
+
+            currentCalendarData[index].events.push(newEvent);
+            triggerAutoSave();
+            renderCalendarView();
+            openEditModal(index); // Re-render modal details list
+            showCustomToast("New milestone successfully added.", "success");
+        }
+
+        function openAddWeekModal() {
+            // Find max week count to pre-fill logically
+            let maxWeek = 0;
+            currentCalendarData.forEach(item => {
+                const parsed = parseInt(item.week);
+                if (!isNaN(parsed) && parsed > maxWeek) maxWeek = parsed;
+            });
+
+            document.getElementById('add-week-no').value = maxWeek + 1;
+            document.getElementById('add-week-month').value = '';
+            
+            // Clear inline date inputs
+            ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].forEach(d => {
+                document.getElementById(`add-day-${d}`).value = '';
+            });
+
+            document.getElementById('modal-add-week').classList.remove('hidden');
+        }
+
+        function closeAddWeekModal() {
+            document.getElementById('modal-add-week').classList.add('hidden');
+        }
+
+        function saveNewWeek(event) {
+            event.preventDefault();
+
+            const weekNo = document.getElementById('add-week-no').value;
+            const month = document.getElementById('add-week-month').value;
+            const wd = parseInt(document.getElementById('add-week-wd').value);
+
+            const newWeekRow = {
+                week: weekNo,
+                month: month,
+                workingDays: wd,
+                dates: {
+                    Mon: document.getElementById('add-day-mon').value,
+                    Tue: document.getElementById('add-day-tue').value,
+                    Wed: document.getElementById('add-day-wed').value,
+                    Thu: document.getElementById('add-day-thu').value,
+                    Fri: document.getElementById('add-day-fri').value,
+                    Sat: document.getElementById('add-day-sat').value,
+                    Sun: document.getElementById('add-day-sun').value
+                },
+                events: []
+            };
+
+            currentCalendarData.push(newWeekRow);
+            triggerAutoSave();
+            renderCalendarView();
+            closeAddWeekModal();
+            showCustomToast(`Week ${weekNo} added to the calendar planner.`, "success");
+        }
+
+        // Reset to default action with Custom Modal prompt
+        function resetToDefaultPrompt() {
+            openConfirmModal(
+                "Reset Calendar Data?", 
+                "Are you sure you want to revert to the official NITTE Institute of Architecture default template? This clears all faculty modifications.", 
+                function() {
+                    currentCalendarData = JSON.parse(JSON.stringify(originalCalendarMaster));
+                    triggerAutoSave();
+                    renderCalendarView();
+                    showCustomToast("Reverted successfully to original university blueprint.", "info");
+                }
+            );
+        }
+
+        function openConfirmModal(title, msg, onConfirm) {
+            document.getElementById('confirm-title').textContent = title;
+            document.getElementById('confirm-message').textContent = msg;
+            
+            const modal = document.getElementById('modal-confirm');
+            const cancelBtn = document.getElementById('confirm-btn-cancel');
+            const actionBtn = document.getElementById('confirm-btn-action');
+
+            modal.classList.remove('hidden');
+
+            const handleCancel = () => {
+                modal.classList.add('hidden');
+                cleanupListeners();
+            };
+
+            const handleConfirm = () => {
+                modal.classList.add('hidden');
+                onConfirm();
+                cleanupListeners();
+            };
+
+            const cleanupListeners = () => {
+                cancelBtn.removeEventListener('click', handleCancel);
+                actionBtn.removeEventListener('click', handleConfirm);
+            };
+
+            cancelBtn.addEventListener('click', handleCancel);
+            actionBtn.addEventListener('click', handleConfirm);
+        }
+
+        function showCustomToast(text, type = "success") {
+            const container = document.getElementById('toast-wrapper');
+            const toast = document.createElement('div');
+            
+            let bgClass = "bg-slate-900 text-white";
+            let iconClass = "fa-circle-info text-sky-400";
+
+            if (type === "success") {
+                bgClass = "bg-emerald-600 text-white";
+                iconClass = "fa-circle-check text-emerald-200";
+            } else if (type === "error") {
+                bgClass = "bg-rose-600 text-white";
+                iconClass = "fa-triangle-exclamation text-rose-200";
+            } else if (type === "info") {
+                bgClass = "bg-nitte-800 text-white";
+                iconClass = "fa-circle-info text-nitte-200";
+            }
+
+            toast.className = `flex items-center gap-3 px-4 py-3.5 rounded-2xl shadow-xl border border-white/10 text-xs font-bold transition duration-300 transform translate-y-3 opacity-0 ${bgClass}`;
+            toast.innerHTML = `
+                <i class="fa-solid ${iconClass} text-sm"></i>
+                <span>${text}</span>
+            `;
+
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-0', 'translate-y-3');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-3');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
