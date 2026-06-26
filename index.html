@@ -38,10 +38,6 @@
                             border: '#fecdd3',
                             solid: '#e11d48'
                         }
-                    },
-                    boxShadow: {
-                        'premium': '0 10px 30px -10px rgba(2, 132, 199, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05)',
-                        'card': '0 2px 10px -2px rgba(15, 23, 42, 0.04), 0 1px 4px -1px rgba(15, 23, 42, 0.02)'
                     }
                 }
             }
@@ -143,7 +139,7 @@
             </div>
         </div>
 
-        <!-- Faculty Management & Cloud Sync Controls -->
+        <!-- Faculty Management Bar -->
         <div id="faculty-controls" class="hidden bg-emerald-50 border border-emerald-200 p-2 rounded-lg flex flex-col gap-2">
             <div class="flex flex-row justify-between items-center gap-2">
                 <div class="flex items-center gap-1.5">
@@ -156,7 +152,7 @@
                 </div>
                 <div class="flex items-center gap-1">
                     <button onclick="toggleCloudSyncPanel()" class="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded font-bold text-[8.5px] transition">
-                        <i class="fa-solid fa-cloud-arrow-up text-[7.5px]"></i> Cloud Setup
+                        <i class="fa-solid fa-cloud-arrow-up text-[7.5px]"></i> Cloud Config
                     </button>
                     <button onclick="openAddWeekModal()" class="flex items-center gap-1 px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-[8.5px] transition shadow-xs">
                         <i class="fa-solid fa-plus text-[7.5px]"></i> New Week
@@ -170,8 +166,8 @@
             <!-- Expandable Cloud Sync Panel -->
             <div id="cloud-sync-panel" class="hidden bg-white rounded border border-emerald-150 p-2.5 mt-1 text-[9px] text-slate-600 space-y-2">
                 <div class="border-b pb-1">
-                    <h4 class="font-extrabold text-slate-800 flex items-center gap-1"><i class="fa-solid fa-cloud-bolt text-emerald-600"></i> Setup Real-Time Cloud Synchronization</h4>
-                    <p class="text-[8px] text-slate-500 mt-0.5">Enabling Cloud Sync allows your students and other teachers to immediately see all edits made here across GitHub Pages.</p>
+                    <h4 class="font-extrabold text-slate-800 flex items-center gap-1"><i class="fa-solid fa-cloud-bolt text-emerald-600"></i> Cloud Synchronization Credentials</h4>
+                    <p class="text-[8px] text-slate-500 mt-0.5">You can update these parameters manually here, or save them directly inside the code for a seamless installation.</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     <div>
@@ -190,16 +186,9 @@
                         <input type="password" id="cloud-master-key" placeholder="Enter API Key" class="w-full border p-1 rounded text-[9px]">
                     </div>
                 </div>
-                <div class="bg-slate-50 p-1.5 rounded text-[8px] space-y-0.5 leading-relaxed">
-                    <p class="font-bold text-slate-800">Quick 60-Second Setup Guide:</p>
-                    <p>1. Sign up for a free account at <a href="https://jsonbin.io" target="_blank" class="text-nitte-600 font-bold underline">JSONBin.io</a>.</p>
-                    <p>2. Copy your **X-Master-Key** from your API keys dashboard.</p>
-                    <p>3. Create a **New Bin**, paste your calendar data array, save, and copy the generated **Bin ID**.</p>
-                    <p>4. Input both credentials above, set mode to **On**, and click **Save Sync Settings**.</p>
-                </div>
                 <div class="flex justify-end gap-1 pt-1 border-t">
                     <button onclick="toggleCloudSyncPanel()" class="px-2 py-0.5 border rounded">Cancel</button>
-                    <button onclick="saveCloudSettings()" class="px-2 py-0.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded">Save Sync Settings</button>
+                    <button onclick="saveCloudSettings()" class="px-2 py-0.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded">Save Settings</button>
                 </div>
             </div>
         </div>
@@ -219,7 +208,6 @@
 
         <!-- Footnotes & Details Collapsed by Default -->
         <div id="footer-details" class="hidden grid-cols-1 lg:grid-cols-3 gap-2.5">
-            
             <!-- Quick Summary Chart -->
             <div class="lg:col-span-2 bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden flex flex-col justify-between">
                 <div>
@@ -322,17 +310,13 @@
             </div>
             
             <div class="p-3.5 space-y-2.5 max-h-[75vh] overflow-y-auto">
-                <!-- Current events inside the week -->
                 <div>
                     <h4 class="text-[8px] font-bold text-slate-400 uppercase tracking-wider mb-1">Current Milestones & Holidays</h4>
-                    <div id="modal-events-list" class="space-y-1">
-                        <!-- Populated programmatically -->
-                    </div>
+                    <div id="modal-events-list" class="space-y-1"></div>
                 </div>
 
                 <hr class="border-slate-100">
 
-                <!-- Add new milestone form -->
                 <div>
                     <h4 class="text-[8px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Add Event to this Week</h4>
                     <form id="add-event-form" onsubmit="saveNewEvent(event)" class="space-y-2">
@@ -439,7 +423,7 @@
         </div>
     </div>
 
-    <!-- Modal 4: Custom Alert Confirmation Interface -->
+    <!-- Modal 4: Confirm Action Modal -->
     <div id="modal-confirm" class="hidden fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 animate-fade-in">
         <div class="bg-white rounded-xl max-w-xs w-full shadow-2xl overflow-hidden border border-rose-100 text-xs">
             <div class="p-4 space-y-3 text-center">
@@ -465,6 +449,15 @@
     </footer>
 
     <script>
+        /*************************************************************************************
+         * 🟢 PERMANENT CLOUD CONFIGURATION 
+         * Paste your keys inside the quotes below before uploading to GitHub! 
+         * This makes cloud-sync work permanently on all devices automatically.
+         *************************************************************************************/
+        const HARDCODED_BIN_ID = "6a3e6e85da38895dfe0288bf";       // Paste your JSONBin.io Bin ID here (e.g. "65bca8d91f56...")
+        const HARDCODED_MASTER_KEY = "$2a$10$ctfwau541VgjzvQ6UPivNOXBkt5STq8A7he3P9DmlEreel5fiOPvm";   // Paste your JSONBin.io X-Master-Key here
+        const AUTO_ENABLE_CLOUD = true;   // Set to true once you paste your keys to activate cloud sync immediately
+
         let footerDetailsVisible = false;
         function toggleFooterDetails() {
             const container = document.getElementById('footer-details');
@@ -759,20 +752,32 @@
         let cloudMasterKey = "";
 
         window.onload = function () {
-            // Load Cloud Settings first
-            const localCloudSettings = localStorage.getItem('nitte_cloud_settings_v3');
-            if (localCloudSettings) {
-                try {
-                    const parsed = JSON.parse(localCloudSettings);
-                    cloudSyncEnabled = parsed.enabled === 'true' || parsed.enabled === true;
-                    cloudBinId = parsed.binId || "";
-                    cloudMasterKey = parsed.masterKey || "";
-                    
-                    document.getElementById('cloud-enable').value = cloudSyncEnabled ? "true" : "false";
-                    document.getElementById('cloud-bin-id').value = cloudBinId;
-                    document.getElementById('cloud-master-key').value = cloudMasterKey;
-                } catch (e) {
-                    console.error("Failed loading cloud sync config", e);
+            // Priority 1: Check if keys are permanently hardcoded inside the code block
+            if (HARDCODED_BIN_ID && HARDCODED_MASTER_KEY) {
+                cloudBinId = HARDCODED_BIN_ID.trim();
+                cloudMasterKey = HARDCODED_MASTER_KEY.trim();
+                cloudSyncEnabled = AUTO_ENABLE_CLOUD;
+                
+                // Write permanently to UI fields to display status
+                document.getElementById('cloud-enable').value = cloudSyncEnabled ? "true" : "false";
+                document.getElementById('cloud-bin-id').value = cloudBinId;
+                document.getElementById('cloud-master-key').value = "●●●●●●●●●●";
+            } else {
+                // Priority 2: Fallback to Local Storage definitions if no permanent keys were hardcoded
+                const localCloudSettings = localStorage.getItem('nitte_cloud_settings_v3');
+                if (localCloudSettings) {
+                    try {
+                        const parsed = JSON.parse(localCloudSettings);
+                        cloudSyncEnabled = parsed.enabled === 'true' || parsed.enabled === true;
+                        cloudBinId = parsed.binId || "";
+                        cloudMasterKey = parsed.masterKey || "";
+                        
+                        document.getElementById('cloud-enable').value = cloudSyncEnabled ? "true" : "false";
+                        document.getElementById('cloud-bin-id').value = cloudBinId;
+                        document.getElementById('cloud-master-key').value = cloudMasterKey;
+                    } catch (e) {
+                        console.error("Failed loading cloud sync config", e);
+                    }
                 }
             }
 
@@ -782,7 +787,7 @@
 
             isFacultyLoggedIn = localStorage.getItem('nitte_faculty_auth_clean') === 'true';
 
-            // Check if we should fetch from Cloud DB or Local DB
+            // Connect to correct data origin
             if (cloudSyncEnabled && cloudBinId) {
                 fetchFromCloudDatabase();
             } else {
@@ -972,11 +977,16 @@
         function saveCloudSettings() {
             const enableVal = document.getElementById('cloud-enable').value === 'true';
             const binIdVal = document.getElementById('cloud-bin-id').value.trim();
-            const masterKeyVal = document.getElementById('cloud-master-key').value.trim();
+            let masterKeyVal = document.getElementById('cloud-master-key').value.trim();
 
             if (enableVal && (!binIdVal || !masterKeyVal)) {
                 showCustomToast("Please provide both Bin ID and API Key to enable sync.", "error");
                 return;
+            }
+
+            // If the user typed actual key and not placeholder dots
+            if (masterKeyVal.includes("●") && HARDCODED_MASTER_KEY) {
+                masterKeyVal = HARDCODED_MASTER_KEY;
             }
 
             cloudSyncEnabled = enableVal;
@@ -989,7 +999,7 @@
                 masterKey: cloudMasterKey
             }));
 
-            showCustomToast("Cloud Sync settings saved locally.", "success");
+            showCustomToast("Cloud Settings updated successfully.", "success");
             toggleCloudSyncPanel();
 
             if (cloudSyncEnabled && cloudBinId) {
@@ -1321,7 +1331,7 @@
                     listEl.innerHTML += `
                     <div class="flex items-center justify-between p-1 rounded border ${cfg.class} text-[9px] font-bold">
                         <span class="flex items-center gap-1">
-                            <span class="w-1 h-1 rounded-full ${cfg.dot}"></span>
+                            <span class="w-1.5 h-1.5 rounded-full ${cfg.dot}"></span>
                             ${e.text}
                         </span>
                         <button type="button" onclick="deleteMilestone(${index}, '${e.id}')" class="px-1 py-0.5 bg-white hover:bg-rose-600 hover:text-white rounded text-[8px] font-bold border border-slate-200">
