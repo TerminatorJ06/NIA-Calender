@@ -99,8 +99,8 @@
                     <i class="fa-solid fa-user-lock text-[6px]"></i> <span>Faculty Login</span>
                 </button>
 
-                <!-- Hidden Reset Button -->
-                <button id="btn-reset" onclick="resetToDefaultPrompt()" class="hidden px-1 py-0.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-bold text-[7px] md:text-[8px] transition">
+                <!-- Hidden Reset Button (Moved to Protected Danger Zone, but kept hidden fallback button reference if needed) -->
+                <button id="btn-reset" onclick="promptProtectedReset()" class="hidden px-1 py-0.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-bold text-[7px] md:text-[8px] transition">
                     <i class="fa-solid fa-rotate-left text-[6px]"></i> Reset
                 </button>
             </div>
@@ -145,9 +145,27 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-1">
+                    <!-- Undo & Redo Controls -->
+                    <div class="flex items-center bg-white border border-emerald-200 p-0.5 rounded-sm">
+                        <button id="btn-undo" onclick="executeUndo()" disabled class="px-1 py-0.5 text-slate-600 hover:text-slate-900 disabled:opacity-30 disabled:cursor-not-allowed transition font-extrabold text-[8px]" title="Undo Last Action">
+                            <i class="fa-solid fa-arrow-rotate-left"></i> Undo
+                        </button>
+                        <div class="h-2.5 w-[1px] bg-slate-200 mx-1"></div>
+                        <button id="btn-redo" onclick="executeRedo()" disabled class="px-1 py-0.5 text-slate-600 hover:text-slate-900 disabled:opacity-30 disabled:cursor-not-allowed transition font-extrabold text-[8px]" title="Redo Action">
+                            Redo <i class="fa-solid fa-arrow-rotate-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Actions -->
                     <button onclick="openAddWeekModal()" class="flex items-center gap-0.5 px-1.5 py-0.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-[8px] transition shadow-xs">
                         <i class="fa-solid fa-plus text-[7px]"></i> New Week
                     </button>
+                    
+                    <!-- Highly Secure Double-Confirmation Reset Gate -->
+                    <button onclick="promptProtectedReset()" class="px-1.5 py-0.5 bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300 rounded font-bold text-[8px] transition" title="Safely Factory Reset Calendar">
+                        <i class="fa-solid fa-rotate-left text-[7px]"></i> Revert to Default
+                    </button>
+
                     <button onclick="facultyLogout()" class="px-1.5 py-0.5 bg-slate-700 hover:bg-slate-800 text-white rounded font-bold text-[8px] transition">
                         <i class="fa-solid fa-right-from-bracket text-[7px]"></i> Logout
                     </button>
@@ -224,7 +242,7 @@
                             <p class="font-bold text-slate-800">Ar. Arul Paul</p>
                             <p class="text-[6px] text-slate-500 font-semibold mt-0.5">Teaching Learning Process & Evaluation</p>
                         </div>
-                        <div class="p-0.5 bg-nitte-50 rounded text-[7px] md:text-[8px] leading-tight">
+                        <div class="p-nitte-50 rounded text-[7px] md:text-[8px] leading-tight">
                             <p class="font-extrabold text-nitte-900">Prof. Vinod Aranha</p>
                             <p class="text-[6px] text-nitte-600 font-bold mt-0.5">Director, NIA</p>
                         </div>
@@ -291,8 +309,9 @@
                         
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="block text-[7.5px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Date Prefix</label>
-                                <input type="text" id="new-event-date-prefix" placeholder="e.g. 15 Aug" class="w-full px-2 py-0.5 border border-slate-300 rounded focus:ring-1 focus:ring-nitte-600 focus:outline-none text-xs">
+                                <label class="block text-[7.5px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Date Prefix (Optional)</label>
+                                <input type="text" id="new-event-date-prefix" placeholder="e.g. 15 Aug or 21-24 Aug" class="w-full px-2 py-0.5 border border-slate-300 rounded focus:ring-1 focus:ring-nitte-600 focus:outline-none text-xs">
+                                <p class="text-[6.5px] text-slate-400 mt-0.5">Starts with number to highlight calendar dates.</p>
                             </div>
                             <div>
                                 <label class="block text-[7.5px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Category Type</label>
@@ -383,7 +402,7 @@
         </div>
     </div>
 
-    <!-- Modal 4: Confirm Action Modal -->
+    <!-- Modal 4: Confirm Action Modal (Eliminates Browser confirm dialog) -->
     <div id="modal-confirm" class="hidden fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3">
         <div class="bg-white rounded-md max-w-xs w-full shadow-2xl overflow-hidden border border-rose-100 text-xs">
             <div class="p-4 space-y-2 text-center">
@@ -395,6 +414,34 @@
                 <div class="flex justify-center gap-1.5 pt-1">
                     <button id="confirm-btn-cancel" class="px-2 py-0.5 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded text-[9px] font-bold transition">Cancel</button>
                     <button id="confirm-btn-action" class="px-3 py-0.5 bg-rose-600 hover:bg-rose-700 text-white rounded text-[9px] font-bold transition shadow-xs">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 5: Highly Protected Factory Reset Confirmation Modal -->
+    <div id="modal-protected-reset" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3">
+        <div class="bg-white rounded-md max-w-xs w-full shadow-2xl overflow-hidden text-xs">
+            <div class="bg-slate-900 p-2 text-white flex justify-between items-center">
+                <h3 class="font-bold font-outfit text-[9px] text-rose-300">Protected Factory Reset</h3>
+                <button onclick="closeProtectedResetModal()" class="text-slate-400 hover:text-white transition w-5 h-5 flex items-center justify-center rounded">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-3 space-y-2">
+                <div class="text-[8.5px] font-semibold text-rose-800 bg-rose-50 border border-rose-150 p-2 rounded leading-relaxed">
+                    <strong>WARNING:</strong> This action will erase all modifications, weeks, and additions, reverting back to the original NITTE academic schedule database.
+                </div>
+                <div>
+                    <label class="block text-[7.5px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Type <strong class="text-rose-600">RESET</strong> to confirm:</label>
+                    <input type="text" id="reset-confirm-string" placeholder="Type here..." class="w-full px-2 py-1 border border-slate-300 rounded text-xs font-bold focus:ring-1 focus:ring-rose-600 focus:outline-none">
+                </div>
+                <div id="reset-error" class="hidden text-[8px] font-bold text-rose-600">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i> Passphrase mismatch.
+                </div>
+                <div class="flex justify-end gap-1.5 pt-1">
+                    <button onclick="closeProtectedResetModal()" class="px-2 py-0.5 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded text-[9px] font-bold transition">Cancel</button>
+                    <button onclick="executeProtectedReset()" class="px-3 py-0.5 bg-rose-600 hover:bg-rose-700 text-white rounded text-[9px] font-bold transition shadow-xs">Execute Reset</button>
                 </div>
             </div>
         </div>
@@ -446,25 +493,25 @@
                 label: 'General Holiday (GH)',
                 class: 'bg-rose-50 border-rose-200 text-rose-800',
                 dot: 'bg-rose-500',
-                dateClass: 'bg-rose-100 text-rose-950 border-rose-300 font-bold'
+                dateClass: 'bg-rose-100/70 text-rose-950 border-rose-250 font-bold'
             },
             'institute': {
                 label: 'Institute Activities',
                 class: 'bg-purple-50 border-purple-200 text-purple-800',
                 dot: 'bg-purple-500',
-                dateClass: 'bg-purple-100 text-purple-950 border-purple-300 font-bold'
+                dateClass: 'bg-purple-100/70 text-purple-950 border-purple-250 font-bold'
             },
             'events': {
                 label: 'Events & Programs',
                 class: 'bg-amber-50 border-amber-200 text-amber-900',
                 dot: 'bg-amber-500',
-                dateClass: 'bg-amber-100 text-amber-950 border-amber-300 font-bold'
+                dateClass: 'bg-amber-100/70 text-amber-950 border-amber-250 font-bold'
             },
             'other': {
                 label: 'Other Details',
                 class: 'bg-blue-50 border-blue-200 text-blue-850',
                 dot: 'bg-blue-500',
-                dateClass: 'bg-blue-100 text-blue-950 border-blue-300 font-bold'
+                dateClass: 'bg-blue-100/70 text-blue-950 border-blue-250 font-bold'
             }
         };
 
@@ -705,6 +752,10 @@
         let layoutMode = 'table';
         const correctPasswordHash = "faculty123";
 
+        // State management for Undo/Redo Engine
+        let historyStack = [];
+        let redoStack = [];
+
         let cloudSyncEnabled = false;
         let cloudBinId = "";
         let cloudMasterKey = "";
@@ -794,6 +845,10 @@
                     throw new Error("Invalid structure from JSON cloud container.");
                 }
                 updateSyncUIStatus("Cloud Synced", false);
+                // Clear history stacks since we downloaded a fresh remote state
+                historyStack = [];
+                redoStack = [];
+                updateUndoRedoButtons();
                 renderCalendarView();
                 showCustomToast("Successfully loaded schedule from Live Cloud", "success");
             })
@@ -852,9 +907,57 @@
             }
         }
 
-        function triggerAutoSave() {
+        function registerStateChange() {
+            // Push exact copy of existing state into history
+            historyStack.push(JSON.stringify(currentCalendarData));
+            // Truncate stack if it grows past 40 operations
+            if (historyStack.length > 40) {
+                historyStack.shift();
+            }
+            // Clear future redos upon any new direct interaction
+            redoStack = [];
+            updateUndoRedoButtons();
+        }
+
+        function executeUndo() {
+            if (historyStack.length === 0) return;
+            // Pop the last history element, save current to redo, and update active dataset
+            const previousState = historyStack.pop();
+            redoStack.push(JSON.stringify(currentCalendarData));
+            
+            currentCalendarData = JSON.parse(previousState);
+            triggerAutoSave(true); // Flag true tells the saver not to generate a new history state
+            renderCalendarView();
+            updateUndoRedoButtons();
+            showCustomToast("Action Undone", "info");
+        }
+
+        function executeRedo() {
+            if (redoStack.length === 0) return;
+            const nextState = redoStack.pop();
+            historyStack.push(JSON.stringify(currentCalendarData));
+
+            currentCalendarData = JSON.parse(nextState);
+            triggerAutoSave(true);
+            renderCalendarView();
+            updateUndoRedoButtons();
+            showCustomToast("Action Redone", "info");
+        }
+
+        function updateUndoRedoButtons() {
+            const undoBtn = document.getElementById('btn-undo');
+            const redoBtn = document.getElementById('btn-redo');
+            if (undoBtn) undoBtn.disabled = (historyStack.length === 0);
+            if (redoBtn) redoBtn.disabled = (redoStack.length === 0);
+        }
+
+        function triggerAutoSave(skipHistorySnapshot = false) {
             localStorage.setItem('nitte_calendar_v4_clean', JSON.stringify(currentCalendarData));
             
+            if (!skipHistorySnapshot) {
+                // Normal user edits snapshot state on cloud save routines
+            }
+
             if (cloudSyncEnabled && cloudBinId && cloudMasterKey) {
                 saveToCloudDatabase();
             } else {
@@ -922,6 +1025,7 @@
                 resetBtn.classList.add('hidden');
                 controlsBar.classList.add('hidden');
             }
+            updateUndoRedoButtons();
         }
 
         function setCategoryFilter(cat) {
@@ -988,7 +1092,7 @@
             return { text: numPart, label: labelPart, category: category };
         }
 
-        // Smart dynamic event-to-date matcher
+        // Smart dynamic event-to-date matcher (looks at strings like "13 Aug" or "21-24 Aug" and highlights correctly)
         function isEventOnDay(dayNum, eventText) {
             const colonIndex = eventText.indexOf(':');
             if (colonIndex === -1) return false;
@@ -1135,7 +1239,7 @@
                         `}
                     </td>
 
-                    <td class="p-1.5 border-l border-slate-100 space-y-0.5 min-w-[180px]">
+                    <td class="p-1.5 border-l border-slate-100 space-y-0.5 min-w-[180px] relative ${isFacultyLoggedIn ? 'pr-9' : ''}">
                         ${row.events.length > 0 ? 
                             row.events.map(e => {
                                 const cfg = categoryMap[e.category] || categoryMap['other'];
@@ -1156,13 +1260,22 @@
                             }).join('') 
                             : `<span class="text-slate-400 italic text-[8.5px]">-</span>`
                         }
+                        
+                        ${isFacultyLoggedIn ? `
+                            <!-- Contextual edit/add plus button on right side of events cell in Table view -->
+                            <div class="absolute right-2 top-1/2 -translate-y-1/2">
+                                <button onclick="openEditModal(${actualIndex})" title="Add Milestone Event" class="w-5.5 h-5.5 flex items-center justify-center bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white rounded-full border border-emerald-200 transition shadow-xs">
+                                    <i class="fa-solid fa-plus text-[8px]"></i>
+                                </button>
+                            </div>
+                        ` : ''}
                     </td>
 
                     ${isFacultyLoggedIn ? `
                         <td class="p-1 text-center border-l">
                             <div class="flex items-center justify-center gap-0.5">
-                                <button onclick="openEditModal(${actualIndex})" title="Edit Events" class="w-4.5 h-4.5 flex items-center justify-center bg-nitte-50 hover:bg-nitte-600 text-nitte-800 hover:text-white border border-nitte-100 rounded transition shadow-xs">
-                                    <i class="fa-solid fa-plus text-[7px]"></i>
+                                <button onclick="openEditModal(${actualIndex})" title="Manage Week" class="w-4.5 h-4.5 flex items-center justify-center bg-nitte-50 hover:bg-nitte-600 text-nitte-800 hover:text-white border border-nitte-100 rounded transition shadow-xs">
+                                    <i class="fa-solid fa-pen-to-square text-[7px]"></i>
                                 </button>
                                 <button onclick="deleteWeekConfirm(${actualIndex})" title="Remove Week" class="w-4.5 h-4.5 flex items-center justify-center bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white border border-rose-100 rounded transition shadow-xs">
                                     <i class="fa-solid fa-trash-can text-[7px]"></i>
@@ -1200,9 +1313,17 @@
                                     <i class="fa-solid fa-calendar-days text-nitte-600 mr-0.5"></i> ${row.month} 2026
                                 </h4>
                             </div>
-                            <span class="text-[8px] font-black text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">
-                                ${row.workingDays} Active Days
-                            </span>
+                            <div class="flex items-center gap-1">
+                                <span class="text-[8px] font-black text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">
+                                    ${row.workingDays} Active Days
+                                </span>
+                                ${isFacultyLoggedIn ? `
+                                    <!-- Contextual plus icon in right corner of Card Header -->
+                                    <button onclick="openEditModal(${actualIndex})" title="Add Milestone Event" class="w-5.5 h-5.5 flex items-center justify-center bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white rounded-full border border-emerald-200 transition shadow-xs shrink-0">
+                                        <i class="fa-solid fa-plus text-[8px]"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
                         </div>
 
                         <!-- Highlights Date Blocks Grid Row -->
@@ -1268,7 +1389,7 @@
                     ${isFacultyLoggedIn ? `
                         <div class="mt-2 pt-1 border-t border-slate-150 flex items-center gap-1">
                             <button onclick="openEditModal(${actualIndex})" class="flex-1 flex items-center justify-center gap-0.5 px-2 py-0.5 bg-nitte-50 hover:bg-nitte-600 text-nitte-800 hover:text-white rounded text-[8px] font-bold transition shadow-xs">
-                                <i class="fa-solid fa-plus-circle text-[7px]"></i> Milestone
+                                <i class="fa-solid fa-plus-circle text-[7px]"></i> Add Milestone
                             </button>
                             <button onclick="deleteWeekConfirm(${actualIndex})" class="w-5 h-5 flex items-center justify-center bg-rose-50 hover:bg-rose-600 text-rose-500 hover:text-white border border-rose-100 rounded transition shadow-xs" title="Delete Week Segment">
                                 <i class="fa-solid fa-trash-can text-[7.5px]"></i>
@@ -1287,6 +1408,7 @@
         function inlineUpdateWorkingDays(index, value) {
             const intVal = parseInt(value);
             if (intVal >= 0 && intVal <= 7) {
+                registerStateChange(); // Register state for undo/redo before mutate
                 currentCalendarData[index].workingDays = intVal;
                 triggerAutoSave();
                 showCustomToast(`Working days adjusted to ${intVal}.`, "success");
@@ -1300,16 +1422,25 @@
             const eventIndex = currentCalendarData[weekIndex].events.findIndex(e => e.id === eventId);
             if (eventIndex > -1) {
                 const deletedName = currentCalendarData[weekIndex].events[eventIndex].text;
-                currentCalendarData[weekIndex].events.splice(eventIndex, 1);
-                triggerAutoSave();
-                renderCalendarView();
-                
-                const modalVisible = !document.getElementById('modal-edit').classList.contains('hidden');
-                if (modalVisible) {
-                    openEditModal(weekIndex);
-                }
-                
-                showCustomToast(`Removed event: "${deletedName}"`, "info");
+
+                // Open custom confirmation box instead of native browser prompt
+                openConfirmModal(
+                    "Delete Milestone Event",
+                    `Are you sure you want to delete the milestone event: "${deletedName}"?`,
+                    function() {
+                        registerStateChange(); // Snap snapshot history
+                        currentCalendarData[weekIndex].events.splice(eventIndex, 1);
+                        triggerAutoSave();
+                        renderCalendarView();
+                        
+                        const modalVisible = !document.getElementById('modal-edit').classList.contains('hidden');
+                        if (modalVisible) {
+                            openEditModal(weekIndex);
+                        }
+                        
+                        showCustomToast(`Removed event: "${deletedName}"`, "info");
+                    }
+                );
             }
         }
 
@@ -1317,8 +1448,9 @@
             const weekNo = currentCalendarData[index].week;
             openConfirmModal(
                 `Confirm Deletion`, 
-                `Remove Week ${weekNo} from Master Academic Schedule?`, 
+                `Are you sure you want to remove Week ${weekNo} from the Master Academic Schedule?`, 
                 function() {
+                    registerStateChange(); // Push backup snapshot
                     currentCalendarData.splice(index, 1);
                     triggerAutoSave();
                     renderCalendarView();
@@ -1377,6 +1509,8 @@
                 finalString = `${prefix}: ${text}`;
             }
 
+            registerStateChange(); // Create recovery savepoint
+
             // Inject holiday label safely
             if (category === 'holiday' && prefix) {
                 const cleanDate = parseInt(prefix);
@@ -1432,6 +1566,8 @@
             const month = document.getElementById('add-week-month').value;
             const wd = parseInt(document.getElementById('add-week-wd').value);
 
+            registerStateChange(); // Push undo stack before modifications
+
             const newWeekRow = {
                 week: weekNo,
                 month: month,
@@ -1455,17 +1591,29 @@
             showCustomToast(`Week ${weekNo} added successfully.`, "success");
         }
 
-        function resetToDefaultPrompt() {
-            openConfirmModal(
-                "Reset Calendar Data?", 
-                "Are you sure you want to revert to the official NITTE Institute of Architecture default template? This clears all cloud and local modifications.", 
-                function() {
-                    currentCalendarData = JSON.parse(JSON.stringify(originalCalendarMaster));
-                    triggerAutoSave();
-                    renderCalendarView();
-                    showCustomToast("Reverted successfully to official blueprint.", "info");
-                }
-            );
+        function promptProtectedReset() {
+            document.getElementById('reset-confirm-string').value = '';
+            document.getElementById('reset-error').classList.add('hidden');
+            document.getElementById('modal-protected-reset').classList.remove('hidden');
+        }
+
+        function closeProtectedResetModal() {
+            document.getElementById('modal-protected-reset').classList.add('hidden');
+        }
+
+        function executeProtectedReset() {
+            const inputVal = document.getElementById('reset-confirm-string').value.trim();
+            if (inputVal === "RESET" || inputVal === "reset") {
+                registerStateChange(); // Log prior calendar representation to Undo history
+
+                currentCalendarData = JSON.parse(JSON.stringify(originalCalendarMaster));
+                triggerAutoSave();
+                renderCalendarView();
+                closeProtectedResetModal();
+                showCustomToast("Reverted successfully to official blueprint.", "info");
+            } else {
+                document.getElementById('reset-error').classList.remove('hidden');
+            }
         }
 
         function openConfirmModal(title, msg, onConfirm) {
