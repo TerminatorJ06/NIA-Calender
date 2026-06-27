@@ -73,10 +73,7 @@
                     <i class="fa-solid fa-graduation-cap text-[10px] md:text-xs"></i>
                 </div>
                 <div>
-                    <h1 class="header-title font-extrabold text-[10px] md:text-xs text-slate-900 tracking-tight leading-none font-outfit">NIA Academic Calendar</h1>
-                    <p class="text-[6.5px] md:text-[8px] font-bold text-nitte-600 uppercase tracking-wider mt-0.5">
-                        B. Arch • SEM III, V & VII Monsoon 2026-27
-                    </p>
+                    <h1 class="header-title font-extrabold text-[10px] md:text-xs text-slate-900 tracking-tight leading-none font-outfit">NIA Academic Calendar 2026-27</h1>
                 </div>
             </div>
             
@@ -99,7 +96,7 @@
                     <i class="fa-solid fa-user-lock text-[6px]"></i> <span>Faculty Login</span>
                 </button>
 
-                <!-- Hidden Reset Button (Moved to Protected Danger Zone, but kept hidden fallback button reference if needed) -->
+                <!-- Hidden Reset Button Reference -->
                 <button id="btn-reset" onclick="promptProtectedReset()" class="hidden px-1 py-0.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded font-bold text-[7px] md:text-[8px] transition">
                     <i class="fa-solid fa-rotate-left text-[6px]"></i> Reset
                 </button>
@@ -109,7 +106,7 @@
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-1.5 md:px-4 py-1.5 space-y-1.5">
 
-        <!-- Dynamic Category Quick Filters (Clean & Minimalist) -->
+        <!-- Dynamic Category Quick Filters -->
         <div class="bg-white rounded-md border border-slate-200 p-1 flex flex-row items-center justify-between gap-1 shadow-xs">
             <div class="flex items-center gap-1 overflow-x-auto scrollbar-none py-0.5">
                 <span class="text-[7.5px] font-extrabold text-slate-400 uppercase tracking-wider shrink-0 mr-1 hidden xs:inline">Filter:</span>
@@ -161,7 +158,7 @@
                         <i class="fa-solid fa-plus text-[7px]"></i> New Week
                     </button>
                     
-                    <!-- Highly Secure Double-Confirmation Reset Gate -->
+                    <!-- Double-Confirmation Reset Gate -->
                     <button onclick="promptProtectedReset()" class="px-1.5 py-0.5 bg-rose-100 hover:bg-rose-200 text-rose-800 border border-rose-300 rounded font-bold text-[8px] transition" title="Safely Factory Reset Calendar">
                         <i class="fa-solid fa-rotate-left text-[7px]"></i> Revert to Default
                     </button>
@@ -345,7 +342,7 @@
             </div>
             
             <form onsubmit="saveNewWeek(event)" class="p-3 space-y-2">
-                <div class="grid grid-cols-3 gap-2">
+                <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block text-[7.5px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Week ID</label>
                         <input type="text" id="add-week-no" required placeholder="e.g. 25" class="w-full px-2 py-0.5 border border-slate-300 rounded text-xs">
@@ -353,10 +350,6 @@
                     <div>
                         <label class="block text-[7.5px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Month</label>
                         <input type="text" id="add-week-month" required placeholder="e.g. Jan" class="w-full px-2 py-0.5 border border-slate-300 rounded text-xs">
-                    </div>
-                    <div>
-                        <label class="block text-[7.5px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Working Days</label>
-                        <input type="number" id="add-week-wd" required min="0" max="7" value="5" class="w-full px-2 py-0.5 border border-slate-300 rounded text-xs">
                     </div>
                 </div>
 
@@ -402,7 +395,7 @@
         </div>
     </div>
 
-    <!-- Modal 4: Confirm Action Modal (Eliminates Browser confirm dialog) -->
+    <!-- Modal 4: Confirm Action Modal -->
     <div id="modal-confirm" class="hidden fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3">
         <div class="bg-white rounded-md max-w-xs w-full shadow-2xl overflow-hidden border border-rose-100 text-xs">
             <div class="p-4 space-y-2 text-center">
@@ -419,7 +412,7 @@
         </div>
     </div>
 
-    <!-- Modal 5: Highly Protected Factory Reset Confirmation Modal -->
+    <!-- Modal 5: Protected Factory Reset Confirmation Modal -->
     <div id="modal-protected-reset" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3">
         <div class="bg-white rounded-md max-w-xs w-full shadow-2xl overflow-hidden text-xs">
             <div class="bg-slate-900 p-2 text-white flex justify-between items-center">
@@ -520,7 +513,6 @@
                 week: "1",
                 month: "Aug",
                 dates: { Mon: "3 OR/COC", Tue: "4", Wed: "5", Thu: "6", Fri: "7", Sat: "8", Sun: "9" },
-                workingDays: 5,
                 events: [
                     { id: "e1", text: "3 Aug: Orientation & Class Commencement, selection of studios & electives", category: "institute" },
                     { id: "e2", text: "4 Aug: First allocation of studios and electives", category: "institute" },
@@ -531,7 +523,6 @@
                 week: "2",
                 month: "Aug",
                 dates: { Mon: "10", Tue: "11", Wed: "12", Thu: "13", Fri: "14", Sat: "15 GH", Sun: "16" },
-                workingDays: 4,
                 events: [
                     { id: "e4", text: "13 Aug: Roll out NU eLearn course pages", category: "other" },
                     { id: "e5", text: "14 Aug: First evaluation (conducted by semester coordinators)", category: "institute" },
@@ -542,7 +533,6 @@
                 week: "3",
                 month: "Aug",
                 dates: { Mon: "17 GH", Tue: "18", Wed: "19", Thu: "20", Fri: "21", Sat: "22", Sun: "23" },
-                workingDays: 4,
                 events: [
                     { id: "e7", text: "17 Aug: Nagara Panchami", category: "holiday" },
                     { id: "e8", text: "21-24 Aug: Field trips (optional)", category: "events" }
@@ -552,7 +542,6 @@
                 week: "4",
                 month: "Aug",
                 dates: { Mon: "24", Tue: "25", Wed: "26", Thu: "27", Fri: "28", Sat: "29", Sun: "30" },
-                workingDays: 5,
                 events: [
                     { id: "e24b", text: "24 Aug: Studio briefings & field exploration review", category: "institute" }
                 ]
@@ -561,7 +550,6 @@
                 week: "5",
                 month: "Aug/Sep",
                 dates: { Mon: "31", Tue: "1", Wed: "2", Thu: "3", Fri: "4", Sat: "5", Sun: "6" },
-                workingDays: 5,
                 events: [
                     { id: "e11", text: "31 Aug - 4 Sep: First Sessional Exam Evaluation Period", category: "institute" }
                 ]
@@ -570,7 +558,6 @@
                 week: "6",
                 month: "Sep",
                 dates: { Mon: "7", Tue: "8", Wed: "9", Thu: "10", Fri: "11", Sat: "12", Sun: "13" },
-                workingDays: 5,
                 events: [
                     { id: "e12", text: "9 Sep: NIA Conversation 1", category: "events" },
                     { id: "e13", text: "11 Sep: Publication of first sessional results", category: "institute" }
@@ -580,7 +567,6 @@
                 week: "7",
                 month: "Sep",
                 dates: { Mon: "14 GH", Tue: "15", Wed: "16", Thu: "17", Fri: "18", Sat: "19", Sun: "20" },
-                workingDays: 4,
                 events: [
                     { id: "e14", text: "14 Sep: Vinayaka Chaturthi", category: "holiday" },
                     { id: "e15", text: "15 Sep: First student and Faculty feedback cycle", category: "institute" }
@@ -590,7 +576,6 @@
                 week: "8",
                 month: "Sep",
                 dates: { Mon: "21", Tue: "22", Wed: "23", Thu: "24", Fri: "25", Sat: "26", Sun: "27" },
-                workingDays: 5,
                 events: [
                     { id: "e9", text: "24 Sep: Student Council Inauguration 2026-27", category: "events" },
                     { id: "e16", text: "26 Sep: Cultural Day celebrations", category: "events" }
@@ -600,7 +585,6 @@
                 week: "9",
                 month: "Sep/Oct",
                 dates: { Mon: "28", Tue: "29", Wed: "30", Thu: "1", Fri: "2 GH", Sat: "3", Sun: "4" },
-                workingDays: 4,
                 events: [
                     { id: "e10", text: "29 Sep: Onam Celebration special assemblies", category: "events" },
                     { id: "e17", text: "2 Oct: Gandhi Jayanthi", category: "holiday" }
@@ -610,7 +594,6 @@
                 week: "10",
                 month: "Oct",
                 dates: { Mon: "5", Tue: "6", Wed: "7", Thu: "8", Fri: "9", Sat: "10", Sun: "11" },
-                workingDays: 5,
                 events: [
                     { id: "e18", text: "05-09 Oct: Second Sessional Period", category: "institute" },
                     { id: "e19", text: "06 Oct: World Architecture Day celebration / NIA Conversation 2", category: "events" }
@@ -620,7 +603,6 @@
                 week: "11",
                 month: "Oct",
                 dates: { Mon: "12", Tue: "13", Wed: "14", Thu: "15", Fri: "16", Sat: "17", Sun: "18" },
-                workingDays: 5,
                 events: [
                     { id: "e20", text: "16 Oct: Publication of second sessional results", category: "institute" }
                 ]
@@ -629,7 +611,6 @@
                 week: "12",
                 month: "Oct",
                 dates: { Mon: "19", Tue: "20", Wed: "21 GH", Thu: "22", Fri: "23", Sat: "24", Sun: "25" },
-                workingDays: 4,
                 events: [
                     { id: "e21", text: "20 Oct: Second student and faculty feedback", category: "institute" },
                     { id: "e22", text: "21 Oct: Vijaya Dashami", category: "holiday" },
@@ -640,14 +621,12 @@
                 week: "13",
                 month: "Oct/Nov",
                 dates: { Mon: "26", Tue: "27", Wed: "28", Thu: "29", Fri: "30", Sat: "31", Sun: "1" },
-                workingDays: 5,
                 events: []
             },
             {
                 week: "14",
                 month: "Nov",
                 dates: { Mon: "2", Tue: "3", Wed: "4", Thu: "5", Fri: "6", Sat: "7", Sun: "8" },
-                workingDays: 5,
                 events: [
                     { id: "e24", text: "2-6 Nov: Third Sessional", category: "institute" }
                 ]
@@ -656,7 +635,6 @@
                 week: "15",
                 month: "Nov",
                 dates: { Mon: "9 BH", Tue: "10 GH", Wed: "11", Thu: "12", Fri: "13", Sat: "14 CWD", Sun: "15" },
-                workingDays: 4,
                 events: [
                     { id: "e25", text: "09 Nov: Bridge Holiday", category: "holiday" },
                     { id: "e26", text: "10 Nov: Balipadyami / Deepavali Holiday", category: "holiday" },
@@ -670,7 +648,6 @@
                 week: "16",
                 month: "Nov",
                 dates: { Mon: "16 SEE App", Tue: "17", Wed: "18 SEE Pen", Thu: "19", Fri: "20", Sat: "21 EoC", Sun: "22" },
-                workingDays: 6,
                 events: [
                     { id: "e31", text: "16 Nov: Last date for SEE examination application", category: "institute" },
                     { id: "e32", text: "18 Nov: Last date for SEE with penalty fee payment", category: "institute" },
@@ -681,7 +658,6 @@
                 week: "17",
                 month: "Nov",
                 dates: { Mon: "23", Tue: "24", Wed: "25 Final CIE", Thu: "26", Fri: "27", Sat: "28", Sun: "29" },
-                workingDays: 0,
                 events: [
                     { id: "e34", text: "25 Nov: Final Attendance & CIE Ledger Submission", category: "institute" }
                 ]
@@ -690,7 +666,6 @@
                 week: "18",
                 month: "Nov/Dec",
                 dates: { Mon: "30", Tue: "1", Wed: "2", Thu: "3", Fri: "4", Sat: "5", Sun: "6" },
-                workingDays: 0,
                 events: [
                     { id: "e35", text: "2 Dec: Commencement of University Examination (tentative)", category: "institute" }
                 ]
@@ -699,21 +674,18 @@
                 week: "19",
                 month: "Dec",
                 dates: { Mon: "7", Tue: "8", Wed: "9", Thu: "10", Fri: "11", Sat: "12", Sun: "13" },
-                workingDays: 0,
                 events: []
             },
             {
                 week: "20",
                 month: "Dec",
                 dates: { Mon: "14", Tue: "15", Wed: "16", Thu: "17", Fri: "18", Sat: "19", Sun: "20" },
-                workingDays: 0,
                 events: []
             },
             {
                 week: "21",
                 month: "Dec",
                 dates: { Mon: "21", Tue: "22", Wed: "23", Thu: "24", Fri: "25 GH", Sat: "26", Sun: "27" },
-                workingDays: 0,
                 events: [
                     { id: "e36", text: "22 Dec: End of University Examination (tentative)", category: "institute" },
                     { id: "e37", text: "25 Dec: Christmas Holiday", category: "holiday" }
@@ -723,14 +695,12 @@
                 week: "22",
                 month: "Dec/Jan",
                 dates: { Mon: "28", Tue: "29", Wed: "30", Thu: "31", Fri: "1", Sat: "2", Sun: "3" },
-                workingDays: 0,
                 events: []
             },
             {
                 week: "23",
                 month: "Jan",
                 dates: { Mon: "4", Tue: "5", Wed: "6", Thu: "7", Fri: "8", Sat: "9", Sun: "10" },
-                workingDays: 0,
                 events: [
                     { id: "e38", text: "4-10 Jan: Winter School Session", category: "events" }
                 ]
@@ -739,7 +709,6 @@
                 week: "24",
                 month: "Jan",
                 dates: { Mon: "11 OR/COC", Tue: "12", Wed: "13", Thu: "14", Fri: "15", Sat: "16", Sun: "17" },
-                workingDays: 5,
                 events: [
                     { id: "e39", text: "11 Jan: Orientation & Class Commencement (Even Sem)", category: "institute" }
                 ]
@@ -803,7 +772,7 @@
             if (localData) {
                 try {
                     currentCalendarData = JSON.parse(localData);
-                    // Ensure split weeks 4 and 5 are maintained properly
+                    // Ensure split weeks are maintained properly
                     const needsUpdate = currentCalendarData.some(item => item.week === "4 & 5");
                     if (needsUpdate) {
                         currentCalendarData = JSON.parse(JSON.stringify(originalCalendarMaster));
@@ -891,6 +860,8 @@
             const statusText = document.getElementById('save-status-text');
             const syncIcon = document.getElementById('sync-icon');
 
+            if (!statusEl || !statusText || !syncIcon) return;
+
             statusText.textContent = label;
             if (isSaving) {
                 statusEl.className = "flex items-center gap-0.5 px-1 py-0.5 bg-amber-50 text-amber-700 rounded text-[7px] md:text-[8px] font-bold pulse-saving";
@@ -921,12 +892,11 @@
 
         function executeUndo() {
             if (historyStack.length === 0) return;
-            // Pop the last history element, save current to redo, and update active dataset
             const previousState = historyStack.pop();
             redoStack.push(JSON.stringify(currentCalendarData));
             
             currentCalendarData = JSON.parse(previousState);
-            triggerAutoSave(true); // Flag true tells the saver not to generate a new history state
+            triggerAutoSave(true); // Skip new snapshot creation
             renderCalendarView();
             updateUndoRedoButtons();
             showCustomToast("Action Undone", "info");
@@ -953,11 +923,6 @@
 
         function triggerAutoSave(skipHistorySnapshot = false) {
             localStorage.setItem('nitte_calendar_v4_clean', JSON.stringify(currentCalendarData));
-            
-            if (!skipHistorySnapshot) {
-                // Normal user edits snapshot state on cloud save routines
-            }
-
             if (cloudSyncEnabled && cloudBinId && cloudMasterKey) {
                 saveToCloudDatabase();
             } else {
@@ -1010,6 +975,8 @@
             const resetBtn = document.getElementById('btn-reset');
             const controlsBar = document.getElementById('faculty-controls');
 
+            if (!toggleBtn || !badge || !resetBtn || !controlsBar) return;
+
             if (isFacultyLoggedIn) {
                 toggleBtn.innerHTML = '<i class="fa-solid fa-lock text-[6px]"></i> <span>Lock Editor</span>';
                 toggleBtn.className = "flex items-center gap-0.5 px-1 py-0.5 bg-slate-800 hover:bg-slate-900 text-white rounded font-bold text-[7px] md:text-[8px] transition shadow-xs";
@@ -1056,6 +1023,8 @@
             const tableBtn = document.getElementById('layout-table');
             const cardBtn = document.getElementById('layout-cards');
 
+            if (!tableBtn || !cardBtn) return;
+
             if (mode === 'table') {
                 tableBtn.className = "px-1.5 py-0.5 bg-slate-800 text-white rounded-sm text-[8px] font-black transition shadow-xs";
                 cardBtn.className = "px-1.5 py-0.5 text-slate-500 hover:text-slate-800 rounded-sm text-[8px] font-bold transition";
@@ -1092,7 +1061,7 @@
             return { text: numPart, label: labelPart, category: category };
         }
 
-        // Smart dynamic event-to-date matcher (looks at strings like "13 Aug" or "21-24 Aug" and highlights correctly)
+        // Smart dynamic event-to-date matcher
         function isEventOnDay(dayNum, eventText) {
             const colonIndex = eventText.indexOf(':');
             if (colonIndex === -1) return false;
@@ -1138,6 +1107,7 @@
 
         function renderCalendarView() {
             const container = document.getElementById('calendar-view');
+            if (!container) return;
             container.innerHTML = '';
 
             const filteredData = currentCalendarData.filter(row => {
@@ -1209,7 +1179,6 @@
                                 <th class="p-0.5 text-center">Fri</th>
                                 <th class="p-0.5 text-center">Sat</th>
                                 <th class="p-0.5 text-center">Sun</th>
-                                <th class="p-1.5 text-center border-l border-slate-800/20 w-10">WD</th>
                                 <th class="p-1.5 border-l border-slate-800/20">Events & Landmark Milestones</th>
                                 ${isFacultyLoggedIn ? '<th class="p-1.5 text-center w-12">Action</th>' : ''}
                             </tr>
@@ -1231,14 +1200,6 @@
                         return renderDayCell(day, cellText, row.events);
                     }).join('')}
                     
-                    <td class="p-1.5 text-center border-l border-slate-100 bg-slate-50/30">
-                        ${isFacultyLoggedIn ? `
-                            <input type="number" min="0" max="7" value="${row.workingDays}" onchange="inlineUpdateWorkingDays(${actualIndex}, this.value)" class="w-7 text-center bg-white border border-slate-300 rounded p-0.5 font-bold text-[9px]">
-                        ` : `
-                            <span class="px-1 py-0.5 bg-slate-100 rounded text-[9px] font-black text-slate-700">${row.workingDays}</span>
-                        `}
-                    </td>
-
                     <td class="p-1.5 border-l border-slate-100 space-y-0.5 min-w-[180px] relative ${isFacultyLoggedIn ? 'pr-9' : ''}">
                         ${row.events.length > 0 ? 
                             row.events.map(e => {
@@ -1314,9 +1275,6 @@
                                 </h4>
                             </div>
                             <div class="flex items-center gap-1">
-                                <span class="text-[8px] font-black text-slate-800 bg-slate-100 px-1 py-0.5 rounded border border-slate-200">
-                                    ${row.workingDays} Active Days
-                                </span>
                                 ${isFacultyLoggedIn ? `
                                     <!-- Contextual plus icon in right corner of Card Header -->
                                     <button onclick="openEditModal(${actualIndex})" title="Add Milestone Event" class="w-5.5 h-5.5 flex items-center justify-center bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white rounded-full border border-emerald-200 transition shadow-xs shrink-0">
@@ -1405,30 +1363,16 @@
             return html;
         }
 
-        function inlineUpdateWorkingDays(index, value) {
-            const intVal = parseInt(value);
-            if (intVal >= 0 && intVal <= 7) {
-                registerStateChange(); // Register state for undo/redo before mutate
-                currentCalendarData[index].workingDays = intVal;
-                triggerAutoSave();
-                showCustomToast(`Working days adjusted to ${intVal}.`, "success");
-            } else {
-                showCustomToast("Days count must fall between 0 and 7.", "error");
-                renderCalendarView();
-            }
-        }
-
         function deleteMilestone(weekIndex, eventId) {
             const eventIndex = currentCalendarData[weekIndex].events.findIndex(e => e.id === eventId);
             if (eventIndex > -1) {
                 const deletedName = currentCalendarData[weekIndex].events[eventIndex].text;
 
-                // Open custom confirmation box instead of native browser prompt
                 openConfirmModal(
                     "Delete Milestone Event",
                     `Are you sure you want to delete the milestone event: "${deletedName}"?`,
                     function() {
-                        registerStateChange(); // Snap snapshot history
+                        registerStateChange(); // Save snapshot
                         currentCalendarData[weekIndex].events.splice(eventIndex, 1);
                         triggerAutoSave();
                         renderCalendarView();
@@ -1450,7 +1394,7 @@
                 `Confirm Deletion`, 
                 `Are you sure you want to remove Week ${weekNo} from the Master Academic Schedule?`, 
                 function() {
-                    registerStateChange(); // Push backup snapshot
+                    registerStateChange(); // Save history snapshot
                     currentCalendarData.splice(index, 1);
                     triggerAutoSave();
                     renderCalendarView();
@@ -1465,6 +1409,7 @@
             document.getElementById('edit-modal-title').innerHTML = `<i class="fa-solid fa-file-signature text-emerald-400 mr-0.5"></i> Week ${row.week} Manager (${row.month})`;
             
             const listEl = document.getElementById('modal-events-list');
+            if (!listEl) return;
             listEl.innerHTML = '';
 
             if (row.events.length === 0) {
@@ -1509,9 +1454,9 @@
                 finalString = `${prefix}: ${text}`;
             }
 
-            registerStateChange(); // Create recovery savepoint
+            registerStateChange();
 
-            // Inject holiday label safely
+            // Inject holiday label
             if (category === 'holiday' && prefix) {
                 const cleanDate = parseInt(prefix);
                 if (!isNaN(cleanDate)) {
@@ -1549,7 +1494,8 @@
             document.getElementById('add-week-month').value = '';
             
             ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].forEach(d => {
-                document.getElementById(`add-day-${d}`).value = '';
+                const input = document.getElementById(`add-day-${d}`);
+                if (input) input.value = '';
             });
 
             document.getElementById('modal-add-week').classList.remove('hidden');
@@ -1564,14 +1510,12 @@
 
             const weekNo = document.getElementById('add-week-no').value;
             const month = document.getElementById('add-week-month').value;
-            const wd = parseInt(document.getElementById('add-week-wd').value);
 
-            registerStateChange(); // Push undo stack before modifications
+            registerStateChange();
 
             const newWeekRow = {
                 week: weekNo,
                 month: month,
-                workingDays: wd,
                 dates: {
                     Mon: document.getElementById('add-day-mon').value,
                     Tue: document.getElementById('add-day-tue').value,
@@ -1604,7 +1548,7 @@
         function executeProtectedReset() {
             const inputVal = document.getElementById('reset-confirm-string').value.trim();
             if (inputVal === "RESET" || inputVal === "reset") {
-                registerStateChange(); // Log prior calendar representation to Undo history
+                registerStateChange();
 
                 currentCalendarData = JSON.parse(JSON.stringify(originalCalendarMaster));
                 triggerAutoSave();
@@ -1623,6 +1567,8 @@
             const modal = document.getElementById('modal-confirm');
             const cancelBtn = document.getElementById('confirm-btn-cancel');
             const actionBtn = document.getElementById('confirm-btn-action');
+
+            if (!modal || !cancelBtn || !actionBtn) return;
 
             modal.classList.remove('hidden');
 
@@ -1648,6 +1594,7 @@
 
         function showCustomToast(text, type = "success") {
             const container = document.getElementById('toast-wrapper');
+            if (!container) return;
             const toast = document.createElement('div');
             
             let bgClass = "bg-slate-900 text-white";
